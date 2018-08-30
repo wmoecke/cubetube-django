@@ -1,0 +1,55 @@
+ {% extends "cubetube/base.html" %}
+ {% block header %}
+{% include "viz/create-header.html" %}
+ {% endblock %}
+
+ {% block content %}
+<main>
+<div class="colmask threecol column-layout">
+<div class="colmid" class="column-layout">
+<div class="colleft" class="column-layout">
+<div id="spacer" class="column-layout"> </div>
+<div class="create" class="column-layout">
+<form id="create-form" action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+	    <input type="hidden" id="nickname" name="viz-nickname">
+	    <input type="hidden" id="accessToken" name="viz-accessToken">
+	    <div class="input"><span>Name</span>
+	      <input type="text" class="create-input" name="viz-name" placeholder="a lovely name for your viz" {% if viz %}value="{{ viz.name }}"{% endif %}>
+	    </div>
+	    <div class="textarea"><span>Tagline</span>
+	      <textarea name="viz-tagline" rows="2" placeholder="a 1-2 sentence description of your project">{% if viz %}{{ viz.tagline }}{% endif %}</textarea>
+	    </div>
+	    <div class="textarea"><span>Description</span>
+	      <textarea name="viz-description" rows="5" placeholder="a place to give a detailed description of your project">{% if viz %}{{ viz.description }}{% endif %}</textarea>
+	    </div>
+	   <div class="input"><span>Source Link</span>
+	     <input type="text" class="create-input" name="viz-source-link" placeholder="a link to your source code on github, pastebin, or anywhere else online"{% if viz %}value="{{ viz.sourceURL }}"{% endif %}>
+	   </div>
+
+	   <div class="input"><span>tags</span>
+	     <input type="text" class="create-input" name="viz-tags" placeholder="comma-separated tags that describe your viz -- for example, 'arduino', 'spark', or 'streaming'"{% if viz %}value="{{ viz.tags }}"{% endif %}>
+	   </div>
+
+<div class="buttonGroup">
+  <div class="button file">UPLOAD BINARY</div>
+  <input class="button hidden" type="file" value="" name="viz-binary">
+  <div class="button file">UPLOAD IMAGES</div>
+  <input class="button hidden" id="images" type="file" value="" name="photo" multiple accept="image/*">
+  </div>
+
+	      {% if viz %}
+<button type="submit">Update Viz</button>
+	      {% else %}
+<button type="submit">Create Viz</button>
+	      {% endif %}
+
+</form>
+
+</div>
+<div id="image-preview" class="column-layout"> </div>
+</div>
+</div>
+</div>
+</main>
+{% endblock %}

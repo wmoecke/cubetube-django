@@ -1,0 +1,18 @@
+{% extends "cubetube/base.html" %}
+{% load card %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" with page="gallery" large=0 %}
+{% endblock %}
+
+{% block content %}
+<div class="viz-cards in-gallery">
+    {% for viz in visualizations %}
+        {% card viz %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "cubetube/partials/_footer.html" %}
+{% endblock %}

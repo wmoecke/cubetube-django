@@ -1,0 +1,138 @@
+<!-- 
+  Viz view, contains comments and details.
+  And also Code editing options.
+
+  - Currently duplicated from javascript.html (old code is in there)
+-->
+
+{% extends "viz/viz-base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<script type="text/javascript">
+   function clicked(){ // I use jQuery in this example
+   $.post("{% url 'compile'%}", {"code": $("textarea#code").text(), "accessToken":"d00b4e9be2f770fa317beb566a7fa296fb4ae36f", "coreID":"54ff6a066667515119311467"});
+   };
+</script>
+
+{% load utils %}
+{% logged_in_status as logged_in %}
+
+{% if source %}
+  <div class="viz-wrapper" data-viz-type="{{ viz.vizType }}" data-viz-id="{{ viz.pk }}" data-viz-url="{% url 'code' source.pk %}">
+{% else %}
+  <div class="viz-wrapper" data-viz-type="{{ viz.vizType }}" data-viz-id="{{ viz.pk }}">
+{% endif %}
+
+  <div class="viz-nav">
+    
+    {% if source %}
+      <a class="round-button button-red view-code">View Code</a>
+    {% endif %}
+      <a class="round-button button-red load" onclick="clicked()">Load</a>
+
+    {% if logged_in %}
+      <div class="cube-options hidden">
+        <a class="round-button button-grey sent-to-cube">Send to Cube</a>
+        <div class="round-button button-grey select-cube">
+          Select Cube
+          <img src="/static/images/down-arrow.png" />
+        </div>
+      </div>
+      <div class="nav-info"></div>
+    {% else %}
+      <div class="nav-info">Sign in to send to cube!</div>
+    {% endif %}
+  </div>
+  <div class="viz-demo">
+    {% if source %}
+      <canvas class="demo-canvas"></canvas>
+    {% else %}
+
+      {% if photo %}
+        <div class="background-image no-photo"></div>
+        <!-- <div class="background-image" style="background-image: url('{{photo.file.url}}')"></div> -->
+      {% else %}
+      {% endif %}
+
+    {% endif %}
+  </div>
+  <div class="viz-details">
+    <div class="inner-wrapper">
+      
+      <div class="viz-created">
+        <div class="title">
+          {{ viz.name }}
+        </div>
+        <div class="created">
+          Created by {{ viz.creator.nickname }} on {{ viz.created|date:"F d, Y" }}
+        </div>
+      </div>
+
+      <div class="viz-share">
+        <div class="twitter">Twitter</div>
+        <div class="facebook">Facebook</div>
+      </div>
+
+      <div class="viz-description">
+        {{ viz.description }}
+      </div>
+    </div>
+
+    <div class="viz-comments clearfix">
+      <div class="inner-wrapper">
+        <div class="comments-title">
+          Comments:
+        </div>
+        {% if logged_in %}
+          <textarea class="comments-input" rows="3" placeholder="Please, share your thoughts!"></textarea>
+          <a class="round-button button-grey submit-comment">Post Comment</a>
+        {% endif %}
+        <div class="comments-go-here">
+          {% for comment in comments %}
+            <div class="viz-comment">
+              <span class="author">{{ comment.commenter.nickname }}</span> <span class="said">said</span>
+              <p>{{ comment.comment }}</p>
+            </div>
+          {% empty %}
+            {% if not logged_in %}
+              <div class="no-comments">Sign up, to be the first!</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if nextViz %}
+    <a class="viz-next" href="/viz/{{ nextViz.pk }}">
+      <div class="next-text">Up next</div>
+      <div class="next-viz-name">{{ nextViz.name }}</div>
+    </a>
+  {% endif %}
+
+  {% if source %}
+  <div class="viz-code">
+    <div class="viz-code-header">
+
+      <a class="round-button button-red run-sketch">Run Sketch</a>
+      {% if logged_in %}
+
+        {% if viz.creator.nickname == request.COOKIES.nickname %}
+          <a class="round-button button-transparent save-sketch">Save Sketch</a>
+        {% else %}
+          <a class="round-button button-transparent fork-sketch">Fork Sketch</a>
+        {% endif %}
+
+      {% else %}
+        <div class="nav-info white">Sign up, make your own!</div>
+      {% endif %}
+    </div>
+    <div class="code-area">
+      <textarea rows="80" cols="120" id="code" class="code inout">{{ source.code }}</textarea>
+    </div>
+    <textarea cols="120" rows="10" class="console output" readonly placeholder="Console output..."></textarea>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

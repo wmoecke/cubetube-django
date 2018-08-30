@@ -1,0 +1,44 @@
+<!-- 
+  Base viz view
+  Handles scripts mostly.
+-->
+{% load staticfiles %}
+<html>
+    <head>
+        {% include "cubetube/partials/_head.html" %}
+    </head>
+    <body class="viz-base">
+        {% block content %}
+        {% endblock %}
+
+        <!-- Processing-->
+        <script src="{% static 'js/processing.js'%}"></script>
+        <script src="{% static 'js/jsbeautify.js'%}"></script>
+        <script src="{% static 'js/processing-helper.js'%}"></script>
+        <script src="{% static 'js/spark-helper.js'%}"></script>
+        <script src="{% static 'js/commentManager.js'%}"></script>
+
+        <!-- Codemirror -->
+        <link rel="stylesheet" href="{% static 'codeMirror/lib/codemirror.css'%}">
+        <link rel="stylesheet" href="{% static 'codeMirror/theme/tomorrow-night-eighties.css'%}">
+        <script src="{% static 'codeMirror/lib/codemirror.js'%}"></script>
+        <script src="{% static 'codeMirror/mode/javascript/javascript.js'%}"></script>
+        <script src="{% static 'codeMirror/addon/selection/active-line.js'%}"></script>
+        <script src="{% static 'codeMirror/addon/edit/matchbrackets.js'%}"></script>
+
+
+	<!-- Streaming -->
+	<script type="text/javascript">
+	  //define some URLS and other global variables for JS functions
+	  var flashWebsocketsUrl="{{ FLASH_WEBSOCKETS_LISTENER }}";
+	</script>
+
+	<script type="text/javascript" src="{% static 'js/streaming.js' %}"></script>
+
+	
+        <!-- App -->
+        <script type="text/javascript" src="{% static 'js/viz-text-base.js' %}"></script>
+
+        {% include "cubetube/partials/_foot.html" %}
+    </body>
+</html>

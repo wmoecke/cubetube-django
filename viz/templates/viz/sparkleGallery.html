@@ -1,0 +1,70 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+{% load card %}
+
+{% block headx %}
+	<!-- to keep this view from reloading from the cache (especially nasty after deletions) -->
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+    {% if featuredViz %}
+        <!-- for Google -->
+        <meta name="description" content="{{ featuredViz.description }}" />
+        <meta name="keywords" content="cubetube L3D 3D cube LED" />
+        <meta name="author" content="{{ featuredViz.creator.nickname }}" />
+        <meta name="copyright" content="" />
+        <meta name="application-name" content="cubetube" />
+
+        <!-- for Facebook -->          
+        <meta property="og:title" content="{{ featuredViz.name }} by {{ featuredViz.creator.nickname }} on cubetube" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="{{ 'http://'|add:request.get_host|add:request.get_full_path }}" />
+        <meta property="og:description" content="{{ featuredViz.description }}" />
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+{% include "cubetube/partials/_header.html" with page="gallery" large=0 %}
+<script src="{% static 'js/processing.js' %}"></script>
+<script src="{% static 'js/processing-gallery-helper.js' %}"></script>
+<script src="{% static 'js/spark-helper.js' %}"></script>
+<script src="{% static 'js/gallery-coordinator.js' %}"></script>
+<script src="http://www.youtube.com/player_api"></script>
+<script type="text/javascript">
+$(function(){
+openViz("{% url 'sparkleViz'%}");
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="gallery-wrapper" class="viz-cards in-gallery" data-viz="{% if featuredViz %}{{ featuredViz.pk }}{% endif %}">
+    {% if privateVizs %}
+        <h3 class="viz-title privated">Private</h3>
+        {% for viz in privateVizs %}
+            {% jscard viz %}
+        {% endfor %}
+    {% endif %}
+
+    {% if privateVizs %}
+        <h3 class="viz-title publiced">Public</h3>
+    {% endif %}
+	<div id="viz-in-gallery">
+		<div id="viz-cards">
+			{% for viz in visualizations %}
+			    {% jscard viz %}
+			{% endfor %}
+		</div>
+	    {% if nextPage %}
+	    	<div id="scroll" style="height: 150px; width: 570px; margin: 0 auto;">
+				<div class="scroll button blue scroll-button-left" data-which="all" href="{% url 'scroll'  '1' 'all' %}">Load All!</div>
+				<div class="scroll button blue scroll-button-left" data-which="more" href="{% url 'scroll' nextPage filter %}">Load More<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>
+			</div>
+	    {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    {% include "cubetube/partials/_footer.html" %}
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+{% block header %}
+{% include "viz/detail-header.html" %}
+
+	<!-- processing !-->
+	<script src="{% static 'js/processing.min.js'%}"></script>
+	<script src="{% static 'js/jsbeautify.js'%}"></script>
+	<script src="{% static 'js/processing-helper.js'%}"></script>
+
+	<!--  UI JS ~-->
+	<script src="{% static 'js/streaming-ui.js'%}"></script>
+	<script type="text/javascript">
+	  function fork (viz)
+	  {
+	  $.post("{% url 'fork' %}",
+          {"accessToken":accessToken, "vizId":viz},
+          function(data){
+	  window.location="http://127.0.0.1:8000/viz/"+data['id']+"/";
+          });
+	  }
+	  
+	  var editToggle=false;
+
+	  function save()
+	  {
+	  $.post("{% url 'save' %}",
+          {"accessToken":accessToken, 
+	  "vizID":viz,
+	  "name":$("#name").val(),
+	  "tagline":$("#tagline").val(),
+	  "description":$("#description").val(),
+	  "sourceCode":$("#code").val()
+	  },
+	  function(data){
+	  alert("saved!  "+data)
+	  });
+	  }
+	  
+	  function edit()
+	  {
+	  editToggle=!editToggle;
+	  if(editToggle)
+	  {
+	  $(".display").hide();
+	  $(".edit").show();
+	  }
+	  else
+	  {
+	  $(".display").show();
+	  $(".edit").hide();
+	  }
+	  }
+	  $(function(){
+	  $(".edit").hide();
+	  });
+	  </script>
+<!--	<script src="{% static 'js/fork.js'%}"></script>  !-->
+	
+	<!--L3D code loading !-->
+	<script src="{% static 'js/loadCubeCode.js'%}"></script>
+	<script>
+	  var sparkCode="{{ source.code }}";
+	  </script>
+	<!-- CODE MIRROR !-->
+	<link rel="stylesheet" href="{% static 'codeMirror/doc/docs.css'%}">
+	  <link rel="stylesheet" href="{% static 'codeMirror/lib/codemirror.css'%}">
+	    <link rel="stylesheet" href="{% static 'codeMirror/theme/tomorrow-night-eighties.css'%}">
+	      <script src="{% static 'codeMirror/lib/codemirror.js'%}"></script>
+	      <script src="{% static 'codeMirror/mode/javascript/javascript.js'%}"></script>
+	      <script src="{% static 'codeMirror/addon/selection/active-line.js'%}"></script>
+	      <script src="{% static 'codeMirror/addon/edit/matchbrackets.js'%}"></script>
+	      <style type="text/css">
+		  canvas 
+		  { 
+		  width: 500px; 
+		  height: 500px; 
+		  border: 1px solid;
+		  }
+		  body {
+		  background-color: #777777;
+		  }
+		  #code-wrapper{
+		  width: 500px;
+		  height: 500px;
+		  float:left;
+		  }
+		  #sketch-container{
+		  width: 400px;
+		  float:left;
+		  margin-left: 30px;
+		  }
+		  #output-wrapper{
+		  width: 100%;
+		  height: 200px;
+		  } 
+		  p.bold{
+		  font-weight:bold;
+		  }
+		</style>
+
+{% endblock %}
+
+{% block content %}
+<main>
+      <div class="info">
+	<p class="bold">title:</p> <div class="projectTitle display">
+	  {{ viz.name }}
+	</div>
+	  {% if viz.creator.nickname == request.COOKIES.nickname %}
+	<div class="projectTitle edit">
+	  <input id="name" value="{{ viz.name }}">
+	</div>
+	{% endif %}
+	  {% if viz.creator.nickname == request.COOKIES.nickname %}
+	  <button id="edit" class="display" onclick="edit()">edit</button>
+	  <button id="edit" class="edit" onclick="save()">save</button>
+	  {% endif %}
+	<p class="bold">By:</p>  <a href="#" class="author">{{ viz.creator }}</a><br/>
+	<p class="bold">tagline:</p> <div class="projectDetail display">
+	  {{ viz.tagline }}
+	</div>	
+	
+	{% if viz.creator.nickname == request.COOKIES.nickname %}
+	<div class="projectDetail edit">
+	  <input id="tagline" value="{{ viz.tagline }}">
+	</div>
+	{% endif %}
+
+	  <div class="others">
+	</div>
+	<p class="bold">description:</p>  <div class="description display">{{ viz.description }} </div>
+	{% if viz.creator.nickname == request.COOKIES.nickname %}
+	<div class="description edit">
+	  <input id="description" value="{{ viz.description }}">
+	</div>
+	{% endif %}
+      </div>
+      <button onclick="showCode();">show code</button>
+  <div id="fork" onclick="fork({{ viz.pk }})"><button>fork</button></div>
+		<div id="code-wrapper" class="edit code">
+		    <textarea rows="80" cols="120" id="code" 	{% if viz.creator.nickname != request.COOKIES.nickname %} readonly="yes" {% endif %}>{{ source.code }}</textarea>
+		  <img onclick="runSketch();" src="{% static 'i/run.png'%}" width="32px">  Run Sketch
+		  </div>
+
+		  <div id="sketch-container">
+		    <canvas id="sketch"></canvas>
+		  </div>
+		  <div id="output-wrapper">
+		    <h2>Output</h2>
+		    <textarea cols="222" rows="10" id="output" readonly="readonly">None.</textarea>
+		  </div>
+    <div class="comment">
+      <h3>Comments</h3>
+      <div class="existingComments">
+      {% for comment in comments %}
+      <div class="commentEntry">
+	<a href="#" class="author">{{ comment.commenter.nickname }}</a> says:
+	<p>{{ comment.comment }}</p>
+	</div>
+      {% endfor %}
+      </div>
+      <div class="commentEntry requireLogin">
+	<a href="#" class="author author-self">You</a>
+	<div class="commentButton">OK</div>  
+	<textarea id="userComment" name="" rows="5" placeholder="What's on yer mind?"></textarea>
+	</div>
+      </div>
+    </div>
+</main>
+{% endblock %}

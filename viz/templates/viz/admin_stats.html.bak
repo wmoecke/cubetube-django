@@ -1,0 +1,402 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+{% block headx %}
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- to keep this view from reloading from the cache (especially nasty after deletions) -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+{% endblock %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" %}
+    <!-- CSS -->
+    <link href="{% static 'js/flot/examples/examples.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- JS -->
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{% static 'js/flot/excanvas.min.js' %}"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="{% static 'js/flot/jquery.flot.min.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'js/flot/jquery.flot.time.min.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'js/flot/jquery.flot.categories.min.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'js/flot/jquery.flot.stack.min.js' %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            var months = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+            var $container = $(".demo-container");
+            var $placeholder = $("#placeholder");
+            var $choices = $("#choices input");
+            var $stackControl = $("p.stackControls input#stacking");
+            var $graphControls = $("p.graphControls button");
+            var $axisControls = $("p.axisControls input");
+            
+            
+            var alreadyFetched;
+            var data;
+            var bars;
+            var lines;
+            var steps;
+            var options;
+            
+            function setGraphicsOptions() {
+                options = {
+                    series: {
+                        stack: $stackControl.prop('checked'),
+                        lines: {
+                            show: lines,
+                            fill: true,
+                            steps: steps
+                        },
+                        bars: {
+                            show: bars,
+                            barWidth: 0.4,
+                            align: "center"
+                        }
+                    },
+                    grid: {
+                        hoverable: true
+                    },
+                    xaxis: {
+                        //mode: "time",
+                        //timeformat: "%b %d",
+                        mode: "categories",
+                        tickLength: 0,
+                        transform: function (v) { return v; },
+                        inverseTransform: function (v) { return v; },
+                        min: 0
+                    },
+                    yaxis: {
+                        tickDecimals: 0,
+                        tickSize: 1,
+                        min: 0
+                    },
+                    hooks: { processDatapoints: [processDatapoints] }
+                };
+            }
+            
+            function onDataReceived(series) {
+                if(!series.data.length) {
+                    alert("No data to display for " + series.label);    //$('label[for="' + $checkbox.attr('id') + '"]').html());
+                    var keywords = series.label.substr(0, series.label.indexOf("in")-1).replace(/ /g,'_').toLowerCase();
+                    console.log(keywords);
+                    var $checkbox = $("#choices input:checkbox[id*='" + keywords + "']");
+                    if($checkbox.length) $checkbox.prop('checked',false);
+                    return;
+                }
+                if(series.label != 'error') {
+                    // Push the new data onto our existing data array
+                    if (!alreadyFetched[series.label]) {
+                        alreadyFetched[series.label] = true;
+                        var seriesStartIndex = series.label.indexOf(" in ")+4;
+                        var seriesEndIndex = series.label.indexOf(",");
+                        var seriesCharCount = seriesEndIndex - seriesStartIndex;
+                        var seriesMonthName = series.label.substr(seriesStartIndex, seriesCharCount);
+                        var seriesMonth = months.indexOf(seriesMonthName) + 1;
+                        //console.log("seriesMonth: [" + seriesMonth + "]");
+
+                        if(data.length) {
+                            var inserted = false;
+                            for (index = 0; index < data.length; index++) {
+                                var dataStartIndex = data[index].label.indexOf(" in ")+4;
+                                var dataEndIndex = data[index].label.indexOf(",");
+                                var dataCharCount = dataEndIndex - dataStartIndex;
+                                var thisMonthName = data[index].label.substr(dataStartIndex, dataCharCount);
+                                var thisMonth = months.indexOf(thisMonthName) + 1;
+                                if(seriesMonth < thisMonth) {
+                                    data.splice(index, 0, series);
+                                    inserted = true;
+                                    break;
+                                }
+                            }
+                            if(!inserted) data.push(series);
+                            //console.log("firstMonth: [" + firstMonth + "]");
+                        }
+                        else data.push(series);
+                        //var selectedMonth = $("select#select-months option:selected").val();
+                        //console.log("selectedMonth: " + selectedMonth);
+                        //data.push(series);
+                    }
+                    sortDataArray();
+                    setGraphicsOptions();
+                    $.plot($placeholder, data, options);
+                    showHideAxisLabels();
+                }
+                else {
+                    $("button#button_clear").click();
+                    alert("An error occurred while fetching data:\n" + series.data);
+                }
+            }
+            
+            function sortDataArray() {
+                if(data.length) {
+                    //console.log("data: " + JSON.stringify(data));
+                    for (index = 0; index < data.length; index++) {
+                        var series = data[index];
+                        series.data.sort();
+                        //console.log("series: " + JSON.stringify(series));
+                    }
+                    data.sort();
+                }
+            }
+            
+            $("<div id='tooltip'></div>").css({
+                position: "absolute",
+                display: "none",
+                border: "1px solid #fdd",
+                padding: "2px",
+                "background-color": "#fee",
+                opacity: 0.80
+            }).appendTo("body");
+
+            $placeholder.bind("plothover", function (event, pos, item) {
+                if (item) {
+                    var x = item.datapoint[0];
+                    var y = item.datapoint[1] - item.datapoint[2];
+                    var labelPt1 = '';
+                    var labelPt2 = '';
+                    if(item.series.label.indexOf("most flashed") < 0) {
+                        labelPt1 = item.series.label.substr(0, item.series.label.indexOf("in")+3);
+                        labelPt2 = item.series.xaxis.ticks[x].label + ": " + y;
+                    }
+                    else {
+                        var xOffset = 0;
+                        for(i = 0; i < data.length; i++) {
+                            if(data[i].label == item.series.label) {
+                                if(i > 0) {
+                                    for(ii = 0; ii < i; ii++)
+                                        xOffset += data[ii].data.length;
+                                }
+                                break;
+                            }
+                        }
+                        //console.log("x = " + x);
+                        //console.log("xOffset = " + xOffset);
+                        labelPt1 = "On " + item.series.xaxis.ticks[x].label + ": \"" + item.series.data[x-xOffset][2];
+                        labelPt2 = "\" > Flashed " + y + " time" + (y > 1 ? "s" : "");
+                    }
+                    $("#tooltip").html(labelPt1 + labelPt2)
+                        .css({top: item.pageY+5, left: item.pageX+5, "background-color": item.series.color})
+                        .fadeIn(200);
+                } else
+                    $("#tooltip").hide();
+            });
+            
+            function processDatapoints(plot, series, datapoints) {
+                //console.log("plot: " + JSON.stringify(plot));
+                //console.log("series: " + JSON.stringify(series));
+                //console.log("datapoints: " + JSON.stringify(datapoints));
+                //series.xaxis.ticks.sort();
+                //series.xaxis.categories.sort();
+                series.stack = $stackControl.prop('checked');
+                sortDataArray();
+            };
+                
+            $stackControl.click(function (e) {
+                //e.preventDefault();
+                //console.log("Stack bars: " + $stackControl.prop("checked"));
+                //console.log("data = " + JSON.stringify(data));
+                //$("button#button_clear").click();
+                sortDataArray();
+                setGraphicsOptions();
+                $.plot($placeholder, data, options);
+                showHideAxisLabels();
+                //$("button.fetchSeries").click();
+                if(!data.length) {
+                    $('canvas.flot-overlay').width(784).height(540);
+                    $('canvas.flot-base').width(784).height(540);
+                }
+            });
+            
+            $axisControls.click(function (e) {
+                showHideAxisLabels(true);
+            });
+            
+            function showHideAxisLabels(slow) {
+                slow = typeof slow !== 'undefined' ? slow : false;
+                $axisControls.each(function() {
+                    if(!$(this).prop("checked"))
+                        if(slow)
+                            $("div." + $(this).attr("id")).fadeIn(200);
+                        else
+                            $("div." + $(this).attr("id")).show();
+                    else
+                        if(slow)
+                            $("div." + $(this).attr("id")).fadeOut(200);
+                        else
+                            $("div." + $(this).attr("id")).hide();
+                });
+            }
+            
+            $choices.click(function (e) {
+                //console.log("data = " + JSON.stringify(data));
+                //console.log("alreadyFetched = " + JSON.stringify(alreadyFetched));
+                var label = $('label[for="' + $(this).attr('id') + '"]').html().split(' ');
+                //var keywords = label.substr(label.lastIndexOf(" ")+1) + " in " + $("select#select-months option:selected").html().toLowerCase();
+                var keywords = label[label.length-2] + " " + label[label.length-1] + " in " + $("select#select-months option:selected").html().toLowerCase();
+                //console.log("This checkbox: " + keywords);
+                if(!$(this).prop('checked')) {
+                    for (index = 0; index < data.length; index++) {
+                        if(data[index].label.toLowerCase().indexOf(keywords) >= 0) {
+                            alreadyFetched[data[index].label] = false;
+                            data.splice(index, 1);
+                        }
+                    }
+                    setGraphicsOptions();
+                    $.plot($placeholder, data, options);
+                    showHideAxisLabels();
+                    if(!data.length) {
+                        $('canvas.flot-overlay').width(784).height(540);
+                        $('canvas.flot-base').width(784).height(540);
+                    }
+                }
+                else
+                    $("button.fetchSeries").click();
+            });
+            
+            $graphControls.click(function (e) {
+                //e.preventDefault();
+                bars = $(this).text().indexOf("Bars") != -1;
+                lines = $(this).text().indexOf("Lines") != -1;
+                steps = $(this).text().indexOf("steps") != -1;
+                setGraphicsOptions();
+                $.plot($placeholder, data, options);
+                showHideAxisLabels();
+                if(!data.length) {
+                    $('canvas.flot-overlay').width(784).height(540);
+                    $('canvas.flot-base').width(784).height(540);
+                }
+            });
+
+            $("button.fetchSeries").click(function () {
+                $.each($('#choices input:checked'), function() {
+                    var $checkbox = $(this);
+                    //console.log("Checkbox for " + $('label[for="' + $checkbox.attr('id') + '"]').html() + ": " + $checkbox.prop("checked").toString());
+                    // Find the URL in the link right next to us, then fetch the data
+                    var dataurl = $checkbox.attr("data-url");
+
+                    $.ajax({
+                        url: dataurl,
+                        data: {"month": parseInt($("select#select-months").val())},
+                        type: "GET",
+                        dataType: "json",
+                        success: onDataReceived
+                    });
+                });
+            });
+            
+            $("button#button_clear").click(function () {
+                bars = true;
+                lines = false;
+                steps = false;
+                data = [];
+                alreadyFetched = {};
+                $stackControl.prop('checked',false);
+                $axisControls.prop('checked',false);
+                setGraphicsOptions();
+                $.plot($placeholder, data, options);
+                showHideAxisLabels();
+                $('canvas.flot-overlay').width(784).height(540);
+                $('canvas.flot-base').width(784).height(540);
+            });
+            
+            $("select#select-months").change(function () {
+                $("button.fetchSeries").click();
+            });
+            
+            var d = new Date();
+            $("select#select-months").val(d.getMonth()+1);
+            //$("button.fetchSeries:first").click();
+
+            // Reset all plot variables and then load an empty plot at first
+            $("button#button_clear").click();
+                
+            // Add the Flot version string to the footer
+            $("#footer").prepend("Powered by: Flot " + $.plot.version + " &ndash; ");
+        });
+    </script>
+    {% block title %} Cubetube - Usage Statistics {% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% load utils %}
+    {% logged_in_status as logged_in %}
+    <div id="header" style='margin-top: 50px;'>
+        <h2>Cubetube - Usage Metrics</h2>
+    </div>
+
+    <div id="content">
+        {% if logged_in %}
+            <div class="demo-container" style="width: 1008px; height: 600px; margin-left: -70px;">
+                <div id="placeholder" class="demo-placeholder" style="float:left; width:800px;"></div>
+                <p id="choices">
+                    <input type='checkbox' id='viz_flashed' data-url="/viz_flashed/" /><label for='viz_flashed'>Viz flashed</label><br/>
+                    <input type='checkbox' id='viz_created' data-url="/viz_created/" /><label for='viz_created'>Viz created</label><br/>
+                    <input type='checkbox' id='viz_most_flashed' data-url="/viz_most_flashed/" /><label for='viz_most_flashed'>Viz most flashed</label><br/>
+                    <input type='checkbox' id='unique_daily_users' data-url="/unique_daily_users/" /><label for='unique_daily_users'>Unique daily users</label><br/><br/>
+                </p>
+                <p>
+                    <select id="select-months" style="font-size: 18px; padding: 1px 2px;">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select><br/>
+                    <!--
+                    -->
+                    <p>
+                        <button class="fetchSeries">Refresh graph</button>
+                        <button id="button_clear" style="font-size: 18px; padding: 1px 7px;" >Clear data</button>
+                    </p>
+                    <p class="stackControls">
+                        <input type='checkbox' id='stacking' /><label for='stacking'>Stack graphs</label>
+                    </p>
+                    <p class="axisControls">
+                        <input type='checkbox' id='flot-y-axis' /><label for='flot-y-axis'>Hide Y-axis' labels</label>
+                        <input type='checkbox' id='flot-x-axis' /><label for='flot-x-axis'>Hide X-axis' labels</label>
+                    </p>
+                    <p class="graphControls">
+                        <button>Bars</button>
+                        <button>Lines</button>
+                        <button>Lines with steps</button>
+                    </p>
+                </p>
+            </div>
+        {% else %}
+            <div class="demo-container" style="display: none;">
+                <div id="placeholder" class="demo-placeholder"></div>
+            </div>
+            <div style="width: 15%; font-weight: bold; color: #2bc6fb; text-align: justify; margin: 0 auto;">
+                <div><span id="device">Please Log In</span></div>
+            </div>
+        {% endif %}
+    </div>
+    <div id="footer">
+        Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+    </div>
+{% endblock %}

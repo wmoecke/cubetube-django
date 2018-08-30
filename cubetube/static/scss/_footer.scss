@@ -1,0 +1,63 @@
+footer {
+    background: url(../images/cube-pattern.png);
+    color: #fff;
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .top {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        height: 110px;
+        padding-top: 50px;
+        letter-spacing: 0.2px;
+        font-size: 13px;
+
+        .logo {
+            width: 30px;
+            margin-top: -10px;
+            margin-right: 5px;
+        }
+
+        .logo-box {
+            vertical-align: top;
+            line-height: 15px;
+            font-weight: 800;
+        }
+
+        ul {
+            float: right;
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            font-weight: 700;
+
+            li {
+                display: inline-block;
+                margin-left: 35px;
+
+                a {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    padding-left: 5;
+                }
+            }
+        }
+    }
+
+    .bottom {
+        height: 410px;
+
+        .cta {
+            font-size: 30px;
+            text-align: center;
+            font-weight: bold;
+            padding-top: 110px;
+        }
+
+        .button {
+            margin-top: 60px;
+        }
+    }
+}

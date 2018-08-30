@@ -1,0 +1,23 @@
+{% extends "cubetube/base.html"%}
+{% load staticfiles %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" with page="forum" large=0 %}
+{% endblock %}
+
+{% block content %}
+<iframe id="forum_embed" class="forum-iframe"
+ src="javascript:void(0)"
+ scrolling="no"
+ frameborder="0"
+ width="100%"
+ height="100%">
+</iframe>
+
+<script type="text/javascript">
+ document.getElementById("forum_embed").src =
+  "https://groups.google.com/forum/embed/?place=forum/cubetalk" +
+  "&showsearch=true&showpopout=true&showTabs=true&theme&parenturl=" +
+  encodeURIComponent(window.location.href);
+</script>
+{% endblock %}

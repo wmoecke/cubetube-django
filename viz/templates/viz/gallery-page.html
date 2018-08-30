@@ -1,0 +1,9 @@
+{% load staticfiles %}
+{% load card %}
+
+{% for viz in visualizations %}
+    {% jscard viz %}
+{% endfor %}
+{% if nextPage %}
+  <a class="scroll button blue" href="{% url 'scroll' nextPage filter %}">Load More!</a>
+{% endif %}

@@ -1,0 +1,17 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" with page="docs" large=0 %}
+{% endblock %}
+
+{% block content %}
+<div class="docs-header">
+  <img src="/static/images/docs/cube-head.png" />
+  <h1>Hello!</h1>
+  <p>
+    Welcome to the wonderful world of 3D LED volumetric display!
+  </p>
+</div>
+
+<div class="docs-wrapper clearfix">

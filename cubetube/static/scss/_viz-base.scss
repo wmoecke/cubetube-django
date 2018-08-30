@@ -1,0 +1,441 @@
+/**
+ * Used on /viz directories
+ * -- Shows the vizualization, and code editor
+ */
+
+.viz-wrapper {
+    width: 800px;
+    border-top: 118px solid #f9f9f9;
+    height: 100%;
+
+    .round-button {
+        text-decoration: none;
+        font-family: roboto;
+        color: #fff;
+        float: right;
+        padding: 8px 20px;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: normal;
+        margin-top: 14px;
+        cursor: pointer;
+        margin-left: 10px;
+
+        img {
+            margin-left: 7px;
+            margin-bottom: -2px;
+            margin-right: -9px;
+        }
+
+        &:active {
+            opacity: 0.8;
+        }
+    }
+
+    .button-transparent {
+        box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .button-red {
+        background: $red;
+    }
+
+    .button-grey {
+        border: 1px solid #ccc;
+        background: #F9F9F9;
+        color: #000;
+    }
+
+    .viz-nav {
+        height: 60px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: fixed;
+        width: 800px;
+        background: #fff;
+        top: 58px;
+        z-index: 2;
+    }
+
+    // Canvas sits inside here.
+    .viz-demo {
+        width: 800px;
+        height: 410px;
+        background: $purple;
+        position: relative;
+        text-align: center;
+
+        canvas {
+            height: 410px;
+        }
+
+        .background-image {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.1);
+
+            background-size: cover;
+            background-position: 50% 50%;
+
+            &.no-image {
+                // Image that doesn't exist here.
+            }
+        }
+    }
+
+    .inner-wrapper {
+        margin: auto;
+        width: 580;
+    }
+
+    .viz-details {
+        padding-top: 30px;
+
+        .title {
+            font-color: #000;
+            font-weight: 800;
+            font-size: 30px;
+            padding-bottom: 5px;
+        }
+
+        .created {
+            color: #999999;
+            font-size: 14px;
+        }
+    }
+
+    .viz-share {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: 50px;
+        font-size: 14px;
+        position: relative;
+
+        div {
+            font-family: 'Roboto';
+            letter-spacing: 1.1px;
+            height: 100%;
+            line-height: 50px;
+            width: 50%;
+            float: left;
+            text-align: center;
+            @include transition(all 300ms ease);
+            cursor: pointer;
+            color: #ccc;
+
+            &:hover {
+                background-color: $blue;
+                color: #fff;
+            }
+        }
+
+        .twitter {
+            border-radius: 3px 0px 0px 3px;
+            border-right: 1px solid #ccc;
+        }
+
+        .facebook {
+            border-radius: 0px 3px 3px 0px;
+        }
+    }
+
+    .viz-comments {
+        background: #f9f9f9;
+        padding-top: 30px;
+        padding-bottom: 35px;
+        margin-top: 30px;
+        border-top: 1px solid #ededed;
+
+        .comments-title {
+            font-weight: 700;
+            font-size: 18;
+            margin-bottom: 9px;
+        }
+
+        .comments-input {
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            font-family: roboto;
+            font-size: 12px;
+            box-shadow: inset 0px 2px 10px rgba(0,0,0,0.05);
+            outline: 0px;
+        }
+
+        .submit-comment {
+            float: left;
+            margin-left: 0px;
+            display: block;
+            margin-right: 440px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        textarea::-webkit-input-placeholder {
+            font-style: italic !important;
+        }
+
+        .viz-comment {
+            float: left;
+            width: 100%;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 10px;
+            font-family: 'roboto';
+            font-size: 13px;
+
+            .author {
+                color: $blue;
+            }
+
+            p {
+                margin-top: 15px;
+            }
+        }
+    }
+
+    .viz-next {
+        display: block;
+        text-decoration: none;
+        height: 160px;
+        background: $purple;
+        width: 100%;
+        text-align: center;
+        padding-top: 55px;
+        cursor: pointer;
+
+        .next-text {
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .next-viz-name {
+            color: $red;
+            font-weight: 800;
+            font-size: 30px;
+        }
+    }
+
+    // Code section
+    .viz-code {
+        padding-top: 58px;
+        position: fixed;
+        top: 0px;
+        left: 800px;
+        border: 0px;
+        height: 100%;
+        width: 600px;
+        overflow: hidden;
+        z-index: 2;
+
+        .CodeMirror {
+            height: 100%;
+        }
+
+        .viz-code-header {
+            height: 60px;
+            padding-right: 10px;
+            background: #000;
+        }
+
+        // Output area
+        .console {
+            padding: 10px;
+            height: 63px;
+            border: 0px;
+            outline: 0px;
+        }
+    }
+
+    &.code-active {
+
+        .viz-nav {
+            padding-right: 310px;
+        }
+
+        .viz-code {
+            @include transform( translateX(-300px) );
+            box-shadow: 0px 0px 35px 0px rgba(0,0,0,0.3);
+        }
+
+
+        .viz-demo,
+        canvas {
+            position: relative;
+            width: 500px;
+            outline: 0;
+        }
+    }
+}
+
+.viz-template {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 800px;
+    height: 100%;
+    border: 0;
+    z-index: 2;
+
+    &.more-open {
+        width: 1100px;
+    }
+}
+
+.create-template {
+   position: fixed;
+   top: 0px;
+   right: 0px;
+   width: 1100px;
+   height: 100%;
+   border: 0;
+   z-index: 2; 
+}
+
+.nav-info {
+    float: right;
+    line-height: 64px;
+    font-size: 13px;
+    padding-right: 10px;
+    height: 60px;
+
+    &.white {
+        color: #fff;
+    }
+}
+
+.create-wrapper {
+    width: 500px;
+
+    .viz-nav,
+    .viz-demo,
+    .viz-demo canvas {
+        width: 500px;
+    }
+
+    .viz-details {
+        padding-bottom: 30px;
+    }
+
+    .viz-code {
+        left: 500px;
+    }
+
+    .inner-wrapper {
+        width: 450px;
+    }
+
+    .viz-name,
+    .description,
+    .switch-option,
+    .video-url {
+        width: 100%;
+    }
+
+    .viz-name,
+    .description,
+    .video-url{
+        font-size: 14px;
+        padding: 13px;
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: inset 1px 1px 5px 0px rgba(0,0,0,0.05);
+        margin-bottom: 15px;
+        outline: 0px;
+    }
+
+    .description {
+        resize: none;
+        height: 80px;
+    }
+
+    .switch-box {
+        width: 300px;
+        height: 34px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.1);
+        margin-top: 3px;
+
+        .switch-left,
+        .switch-right {
+            width: 50%;
+            float: left;
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+            -webkit-touch-callout: none;
+             -webkit-user-select: none;
+             -khtml-user-select: none;
+             -moz-user-select: none;
+             -ms-user-select: none;
+             user-select: none;
+
+            &.off {
+                background: rgba(0,0,0,0.1);
+                color: rgba(0,0,0,0.5); 
+
+            }
+        }
+
+        .switch-left {
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+    }
+
+    .switch-option {
+        height: 60px;
+        line-height: 40px;
+        cursor: pointer;
+
+        .label {
+            width: 90px;
+            font-weight: bold;
+            float: left;
+        }
+
+    }
+
+    .viz-code-header {
+
+        .switch-box {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin-top: 13px;
+            color: #fff;
+            line-height: 32px;
+            float: right;
+            cursor: pointer;
+
+            .off {
+                color: #aaa;
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+}
+
+#cubeName {
+    max-width: 165px;
+}
+
+.fb-share-button {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+}
+

@@ -1,0 +1,163 @@
+[21/Nov/2016 18:17:01] DEBUG [viz.views:1101] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastActivity,'%m/%d/%Y')) AS `fmtLastActivity`, COUNT(`cube_cubeuser`.`id`) AS `count` FROM `cube_cubeuser` WHERE ((lastActivity >= '2016-03-01' AND lastActivity < '2016-04-01')) GROUP BY (DATE_FORMAT(lastActivity,'%m/%d/%Y')) ORDER BY `fmtLastActivity` ASC
+[21/Nov/2016 18:17:01] DEBUG [viz.views:955] startDate: 2016-03-01
+[21/Nov/2016 18:17:01] DEBUG [viz.views:956] endDate: 2016-04-01
+[21/Nov/2016 18:17:01] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-03-01' AND created < '2016-04-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[21/Nov/2016 18:17:05] DEBUG [viz.views:955] startDate: 2016-03-01
+[21/Nov/2016 18:17:05] DEBUG [viz.views:956] endDate: 2016-04-01
+[21/Nov/2016 18:17:05] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-03-01' AND created < '2016-04-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[21/Nov/2016 18:17:13] DEBUG [viz.views:1096] startDate: 2016-11-01
+[21/Nov/2016 18:17:13] DEBUG [viz.views:1097] endDate: 2016-12-01
+[21/Nov/2016 18:17:13] DEBUG [viz.views:1101] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastActivity,'%m/%d/%Y')) AS `fmtLastActivity`, COUNT(`cube_cubeuser`.`id`) AS `count` FROM `cube_cubeuser` WHERE ((lastActivity >= '2016-11-01' AND lastActivity < '2016-12-01')) GROUP BY (DATE_FORMAT(lastActivity,'%m/%d/%Y')) ORDER BY `fmtLastActivity` ASC
+[21/Nov/2016 18:26:02] DEBUG [viz.views:183] compiling
+[21/Nov/2016 18:26:02] DEBUG [viz.views:194] 
+[21/Nov/2016 18:26:09] DEBUG [viz.views:258] saving code to file C:\Users\Werner\Documents\Projects\Cubetube\cubetube-django\media\cloudware\2016-11-21--18.26.09.ino
+[21/Nov/2016 18:26:09] DEBUG [viz.views:260] C:\Users\Werner\Documents\Projects\Cubetube\cubetube-django\media\cloudware\
+[21/Nov/2016 18:26:09] DEBUG [viz.views:261] 2016-11-21--18.26.09.ino
+[21/Nov/2016 18:26:09] DEBUG [viz.views:267] ['node', 'cloudflash.js', u'7dd5dadf2aecf9710591c1680f94d9ed59b650fd', u'370022001447343339383037', '2016-11-21--18.26.09.ino', u'NEOPIXEL']
+[22/Nov/2016 15:02:53] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:02:53] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:02:53] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:03:09] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:03:09] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:03:09] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:11:22] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:11:22] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:11:22] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:11:56] DEBUG [viz.views:1050] startDate: 2016-10-01
+[22/Nov/2016 15:11:56] DEBUG [viz.views:1051] endDate: 2016-11-01
+[22/Nov/2016 15:11:56] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:12:34] DEBUG [viz.views:1050] startDate: 2016-10-01
+[22/Nov/2016 15:12:34] DEBUG [viz.views:1051] endDate: 2016-11-01
+[22/Nov/2016 15:12:34] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:12:37] DEBUG [viz.views:1050] startDate: 2016-10-01
+[22/Nov/2016 15:12:37] DEBUG [viz.views:1051] endDate: 2016-11-01
+[22/Nov/2016 15:12:37] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:12:50] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:12:50] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:12:50] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:13:09] DEBUG [viz.views:1050] startDate: 2016-10-01
+[22/Nov/2016 15:13:09] DEBUG [viz.views:1051] endDate: 2016-11-01
+[22/Nov/2016 15:13:09] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:19:56] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:19:56] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:19:56] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:21:09] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:21:09] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:21:09] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:23:54] DEBUG [viz.views:1050] startDate: 2016-10-01
+[22/Nov/2016 15:23:54] DEBUG [viz.views:1051] endDate: 2016-11-01
+[22/Nov/2016 15:23:54] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:24:42] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:24:42] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:24:42] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[22/Nov/2016 15:28:30] DEBUG [viz.views:1050] startDate: 2016-11-01
+[22/Nov/2016 15:28:30] DEBUG [viz.views:1051] endDate: 2016-12-01
+[22/Nov/2016 15:28:30] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 15:59:02] DEBUG [viz.views:1050] startDate: 2016-11-01
+[24/Nov/2016 15:59:02] DEBUG [viz.views:1051] endDate: 2016-12-01
+[24/Nov/2016 15:59:02] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 15:59:27] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 15:59:27] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 15:59:27] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 15:59:41] DEBUG [viz.views:1003] startDate: 2016-10-01
+[24/Nov/2016 15:59:41] DEBUG [viz.views:1004] endDate: 2016-11-01
+[24/Nov/2016 15:59:41] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-10-01' AND lastFlashed < '2016-11-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:00:49] DEBUG [viz.views:1003] startDate: 2016-10-01
+[24/Nov/2016 16:00:49] DEBUG [viz.views:1004] endDate: 2016-11-01
+[24/Nov/2016 16:00:49] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-10-01' AND lastFlashed < '2016-11-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:01:00] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:01:00] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:01:00] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:01:12] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:01:12] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:01:12] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:01:22] DEBUG [viz.views:1003] startDate: 2016-10-01
+[24/Nov/2016 16:01:22] DEBUG [viz.views:1004] endDate: 2016-11-01
+[24/Nov/2016 16:01:22] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-10-01' AND lastFlashed < '2016-11-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:02:27] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:02:27] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:02:28] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:02:35] DEBUG [viz.views:1050] startDate: 2016-11-01
+[24/Nov/2016 16:02:35] DEBUG [viz.views:1051] endDate: 2016-12-01
+[24/Nov/2016 16:02:35] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y'))) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 16:19:48] DEBUG [viz.views:1050] startDate: 2016-11-01
+[24/Nov/2016 16:19:48] DEBUG [viz.views:1051] endDate: 2016-12-01
+[24/Nov/2016 16:19:48] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y')) AND A.views > 0) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 16:20:27] DEBUG [viz.views:1050] startDate: 2016-10-01
+[24/Nov/2016 16:20:27] DEBUG [viz.views:1051] endDate: 2016-11-01
+[24/Nov/2016 16:20:27] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-10-01' AND A.lastFlashed < '2016-11-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y')) AND A.views > 0) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 16:20:33] DEBUG [viz.views:1003] startDate: 2016-10-01
+[24/Nov/2016 16:20:33] DEBUG [viz.views:1004] endDate: 2016-11-01
+[24/Nov/2016 16:20:33] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-10-01' AND lastFlashed < '2016-11-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:21:20] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:21:20] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:21:20] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1050] startDate: 2016-11-01
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1051] endDate: 2016-12-01
+[24/Nov/2016 16:21:30] DEBUG [viz.views:1055] SQL QUERY: <RawQuerySet: "SELECT DISTINCT A.id as 'id', DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') AS 'fmtLastFlashed', LTRIM(RTRIM(A.name)) AS 'name', A.views AS 'count' FROM viz_viz A WHERE (A.vizType = 'L3D' AND A.published = true AND (A.lastFlashed >= '2016-11-01' AND A.lastFlashed < '2016-12-01') AND A.views = (SELECT MAX(B.views) FROM viz_viz B WHERE DATE_FORMAT(B.lastFlashed,'%%m/%%d/%%Y') = DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y')) AND A.views > 0) GROUP BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ORDER BY DATE_FORMAT(A.lastFlashed,'%%m/%%d/%%Y') ASC">
+[24/Nov/2016 16:29:07] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:29:07] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:29:07] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:29:14] DEBUG [viz.views:1003] startDate: 2016-10-01
+[24/Nov/2016 16:29:14] DEBUG [viz.views:1004] endDate: 2016-11-01
+[24/Nov/2016 16:29:14] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-10-01' AND lastFlashed < '2016-11-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:29:49] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:29:49] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:29:49] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:29:53] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:29:53] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:29:53] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:29:53] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:29:53] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:29:53] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:01] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:01] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:01] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:01] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:01] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:01] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:07] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:07] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:07] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:07] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:07] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:07] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:12] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:12] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:12] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:12] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:12] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:12] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:16] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:16] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:16] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:16] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:16] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:16] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:22] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:22] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:22] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:22] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:22] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:22] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:27] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:27] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:27] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:27] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:27] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:27] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:32] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:32] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:32] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:32] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:32] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:32] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC
+[24/Nov/2016 16:30:56] DEBUG [viz.views:1003] startDate: 2016-11-01
+[24/Nov/2016 16:30:56] DEBUG [viz.views:1004] endDate: 2016-12-01
+[24/Nov/2016 16:30:56] DEBUG [viz.views:1008] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) AS `fmtLastFlashed`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND published = true AND (lastFlashed >= '2016-11-01' AND lastFlashed < '2016-12-01')) GROUP BY (DATE_FORMAT(lastFlashed,'%m/%d/%Y')) ORDER BY `fmtLastFlashed` ASC
+[24/Nov/2016 16:30:56] DEBUG [viz.views:955] startDate: 2016-11-01
+[24/Nov/2016 16:30:56] DEBUG [viz.views:956] endDate: 2016-12-01
+[24/Nov/2016 16:30:56] DEBUG [viz.views:960] SQL QUERY: SELECT DISTINCT (DATE_FORMAT(created,'%m/%d/%Y')) AS `fmtCreated`, COUNT(`viz_viz`.`id`) AS `count` FROM `viz_viz` WHERE (vizType = 'L3D' AND (created >= '2016-11-01' AND created < '2016-12-01')) GROUP BY (DATE_FORMAT(created,'%m/%d/%Y')) ORDER BY `fmtCreated` ASC

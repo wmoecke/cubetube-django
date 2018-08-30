@@ -1,0 +1,154 @@
+
+<!-- 
+  Viz view, contains comments and details.
+  And also Code editing options.
+
+  - Currently duplicated from javascript.html (old code is in there)
+-->
+
+{% extends "viz/viz-base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<script type="text/javascript">
+	var compilerData;
+	var JSONstring;
+	function flashCube(){
+		var request=$.ajax({
+			type:"POST",
+			url:"{% url 'cloudFlash' %}", 
+			data: {"code": $(".code").val(), "accessToken":accessToken, "deviceID":$("#cubeName").val(), "vizName": "{{ viz.name }}", "vizId":"{{ viz.pk }}" },
+			dataType:"text",
+			success: function(data){
+				console.log("success flashing");
+				console.log(data);
+				JSONstring=data;
+				var result = $.parseJSON(data);
+				var result = $.parseJSON(result);
+				compilerData=result;
+				console.log(result);
+				output="";
+				if(result.ok){
+					output+="compilation status:  ok\n";
+					output+=result.message;
+				}
+				else{
+					output+="compilation status: "+result.ok+"\nerrors:\n"+result.errors+"\n";
+				}
+				$("textarea.output").val(output);
+			},
+			error: function(data){
+				console.log("fail");
+				console.log(data);
+			}
+		});
+	}
+</script>
+
+{% load utils %}
+{% logged_in_status as logged_in %}
+
+{% if viz %}
+{% endif %}
+<div class="viz-wrapper create-wrapper" {% if viz %}viz-id="{{ viz.pk }}"{% endif %} >
+
+  <div class="viz-nav">
+    <div class="nav-info"></div>
+    <a class="round-button button-red save-code">Save</a>
+    <div class="cube-options">
+	{% if viz.vizType == "L3D" %}
+        <a class="round-button button-grey sent-to-cube" onclick="flashCube()">Send to Cube</a>
+	{% elif viz.vizType == "javascript" %}
+        <a class="round-button button-grey sent-to-cube" onclick="stream()">Stream to Cube</a>
+	{% else %}
+	{% endif %}
+      <div class="round-button button-grey select-cube">
+	  <select id="cubeName"></select>
+      </div>
+    </div>
+
+  </div>
+  <div class="viz-demo">
+      <canvas class="demo-canvas"></canvas>
+  </div>
+  <div class="viz-details">
+    <div class="inner-wrapper">
+      <input class="viz-name" placeholder="Type an awesome name for your viz." value="{% if viz %} {{ viz.name }}{% endif %}"></input>
+      <textarea class="description" placeholder="Describe whats going on here! Including instructions if the viz requires an interactive component.">{% if viz %} {{ viz.description }}{% endif %}</textarea>
+      
+      <div class="switch-option published">
+        <div class="label">Published</div>
+        <div class="switch-box">
+          {% if viz %} 
+            {% if viz.published %} 
+              <div class="switch-part switch-left on">Public</div>
+              <div class="switch-part switch-right off">Private</div>
+            {% else %}
+              <div class="switch-part switch-left off">Public</div>
+              <div class="switch-part switch-right on">Private</div>
+            {% endif %}  
+          {% else %}
+            <div class="switch-part switch-left off">Public</div>
+            <div class="switch-part switch-right on">Private</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="switch-option interactive">
+        <div class="label">Interactive</div>
+        <div class="switch-box interactive">
+          {% if viz %} 
+            {% if viz.interactive %} 
+              <div class="switch-part switch-left off">No</div>
+              <div class="switch-part switch-right on">Yes</div>
+            {% else %}
+              <div class="switch-part switch-left on">No</div>
+              <div class="switch-part switch-right off">Yes</div>
+            {% endif %}  
+          {% else %}
+            <div class="switch-part switch-left on">No</div>
+            <div class="switch-part switch-right off">Yes</div>
+          {% endif %}
+        </div>
+      </div>
+      {% if viz %} 
+        {% if viz.interactive %} 
+          <input class="video-url" placeholder="Interactive! Please add a youtube link here" value="{{ viz.videoURL }}"/>
+        {% else %}
+          <input class="video-url hidden" placeholder="Interactive! Please add a youtube link here"/>
+        {% endif %}
+      {% else %}
+        <input class="video-url hidden" placeholder="Interactive! Please add a youtube link here"/>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="viz-code">
+    <div class="viz-code-header">
+      <a class="round-button button-red run-sketch">Update Demo</a>
+      <div class="switch-box viz-type">
+        {% if viz %}
+          {% if viz.vizType == "javascript" %}
+            <div class="switch-part switch-left on">JS</div>
+            <div class="switch-part switch-right off">L3D</div>
+          {% else %}
+            <div class="switch-part switch-left off">JS</div>
+            <div class="switch-part switch-right on"?"">L3D</div>
+          {% endif %}  
+        {% else %}
+        <div class="switch-part switch-left on">JS</div>
+        <div class="switch-part switch-right off">L3D</div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="code-area">
+      <textarea rows="80" cols="120" id="code" class="code inout">{% if viz %}{{ source.code }}{% endif %}</textarea>
+    </div>
+    <textarea cols="120" rows="10" class="console output" readonly placeholder="Console output..."></textarea>
+  </div>
+</div>
+
+<!-- App -->
+<script type="text/javascript" src="{% static 'js/create.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+{% load card %}
+
+{% block header %}
+{% include "cubetube/partials/_header.html" with page="overview" large=1 %}
+<script src="{% static 'js/processing.js' %}"></script>
+<script src="{% static 'js/processing-gallery-helper.js' %}"></script>
+<script src="{% static 'js/spark-helper.js' %}"></script>
+<script src="{% static 'js/gallery-coordinator.js' %}"></script>	
+{% endblock %}
+
+{% block content %}
+    <div class="explore-title">
+        <h1>
+            Explore the latest visualizations
+        </h1>
+        <h2>
+            Welcome to the wonderful world of 3D LED volumetric display!
+        </h2>
+    </div>
+    <div class="viz-cards">
+        {% for viz in visualizations %}
+            {% jscard viz %}
+        {% endfor %}
+        <a class="button blue" href="/gallery"> See full viz gallery </a>
+    </div>
+    {% include "viz/create-callout.html" %}
+{% endblock %}
+
+{% block footer %}
+    {% include "cubetube/partials/_footer.html" %}
+{% endblock %}

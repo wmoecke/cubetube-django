@@ -1,0 +1,240 @@
+<!-- 
+  Viz view, contains comments and details.
+  And also Code editing options.
+
+  - Currently duplicated from javascript.html (old code is in there)
+-->
+
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+
+{% block headx %}
+    <!-- to keep this view from reloading from the cache (especially nasty after deletions) -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <!--<meta http-equiv="Content-Security-Policy" content="font-src *; default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" %}
+{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+        //var accessToken=$.cookie("accessToken");
+        //var coreID = $.cookie("coreID");
+
+        $(function () {
+            $(window).on("orientationchange", function() {
+                window.location.reload(); 
+                // Below code only works well in iOS devices
+                /*$canvas = document.getElementById('cube_canvas');
+                kPieceWidth = $("#cube_canvas").width() / kBoardWidth;	//50;
+                kPieceHeight = $("#cube_canvas").height() / kBoardHeight;	//50;
+                kPixelWidth = 1 + (kBoardWidth * kPieceWidth);
+                kPixelHeight= 1 + (kBoardHeight * kPieceHeight);
+                initGame($canvas);*/
+            });
+            /*$(window).on("resize", function() {
+                console.log('width: ' + $(window).width());
+                if(!isTouchDevice()) {window.location.reload();}
+            });*/
+
+            clearTimeout(taglineTimer);
+            $("div.tagline").hide();
+            $('.logo-box').off('mouseover');
+            $('.logo-box').off('mouseout');
+            $('a.logo-box span.cubetube').text('Cube Painter');
+            $('a.logo-box span.cubetube').css('color', '#fff');
+
+            checkCookie();
+            console.log("accessToken: " + accessToken);
+
+            if (typeof accessToken !== 'undefined' && accessToken !== null) {
+                cubeNameOnChange(); //populateInterval();
+                if (typeof coreID !== 'undefined' && coreID !== null) {
+                    $("div#select-cube").fadeIn(300);
+                    $("div#cubeAndModeText").hide('slide', {direction: 'right'}, 600);
+                }
+            }
+
+            // Bind both touch and click events to the slider control
+            // for compatibility with mobile and desktop devices
+            $("input#brightnessSlider").on("mouseup touchend", function() { changeBrightness(); });
+            
+            initGame($canvas);  //initGame($canvas, $colors);
+        });
+
+        function getDeviceID() {
+            var ret = $("select#cubeName").val();
+            if(typeof ret !== 'undefined' && ret !== null && ret !== '-1')
+                return ret;
+            else 
+                return '';
+        }
+
+        function cubeNameOnChange() {
+            currentMode = '';
+            isUserAlerted = false;
+            var deviceID = getDeviceID();	// Reads currently 'selected' value from dropdown
+            console.log('deviceID: ' + deviceID);
+            console.log('#cubeName options: ' + $("select#cubeName option").length);
+            console.log('#cubeName value: ' + $("select#cubeName").val());
+
+            if(deviceID.trim() !== '') {
+                // Retrieve the name of the selected device from the dropdown
+                /*$("select#cubeName option").each(function () {
+                    if ($(this).val() === deviceID)
+                        $("span#device").text($(this).text() + " Selected");  // Place the name in the device span
+                });*/
+
+                coreID = deviceID;
+                // Freshen the cookie with the currently selected device from the dropdown
+                $.removeCookie("coreID", {path: '/'});
+                var date = new Date();
+                $.cookie("coreID", coreID, {expires: date.getTime() + 86400, path: '/'});
+
+                // Show the modes list and brightness control
+                populateInterval();
+            }
+            else {
+                // We don't have a valid selected device so delete the cookie and hide the controls
+                $.removeCookie("coreID", {path: '/'});
+                coreID = null;
+                $("div#updateListDiv").fadeOut(100);
+                $("div#brightnessControl").fadeOut(100);
+                clearInterval(populateModesTimer);
+            }
+        }
+
+        function changeBrightness() {
+            brightness = $("#brightnessSlider").val();
+            updateBrightnessLabel(brightness);
+            setBrightness();
+            if (supportsLocalStorage())
+                localStorage["spark_pixels.brightness"] = brightness;
+        }
+        
+        function updateBrightnessLabel(brightnessValue) {
+            $("span#brightness").text("Brightness: " + brightnessValue);
+            $("input#brightnessSlider").attr("title", $("span#brightness").text());
+        }
+</script>
+    {% load utils %}
+    {% logged_in_status as logged_in %}
+    <div id="gallery-wrapper" class="viz-cards" style="padding-top: 0px !important;">
+        <div class="gradient" style="margin-top: 60px; padding: 0px 25% 12px; text-align: center; border-radius: 0px 0px 30px 30px">
+            <div id="cubeAndModeText">
+                <div><span id="device">Please Log In</span></div>
+                <!--<div>Selected Mode:  <span id="mode"></span></div>-->
+            </div>
+            {% if logged_in %}
+                <div style="clear: both; height: 10px; background: rgba(28, 21, 33, 0)"></div>
+                <div id="select-cube" style="text-align: center;">
+                    <span style="padding-right: 10px;" >Device:</span>
+                    <select id="cubeName" onchange="cubeNameOnChange();" style="border-width: 2px; border-color: #2bc6fb; border-radius: 10px;"></select>
+                </div>
+                <div style="clear: both; height: 10px; background: rgba(28, 21, 33, 0)"></div>
+                <div id="updateListDiv">
+                    <a id="updateListButton" href="javascript:void(0);" onclick="currentMode = ''; populateInterval();" 
+                       title="Click here to refresh the modes list!">
+                        Loading, Please Wait<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                    </a>
+                    <select id="modes" onchange="setMode();" style="border-width: 2px; border-color: #2bc6fb; border-radius: 10px; display: none;"></select>
+                </div>
+                <div style="clear: both; height: 10px; background: rgba(28, 21, 33, 0)"></div>
+                <div id="brightnessControl">
+                    <!--<div>-->
+                        <span style="float: left;" id="brightness"></span>
+                        <input id="brightnessSlider" type="range" min="0" max="100" step="1" value="20" />
+                    <!--</div>-->
+                </div>
+            {% endif %}
+        </div>
+        <!-- <div style="clear: both; height: 7px; background: #1C1521"></div> -->
+        <div id="canvas">
+            <!-- <div class="spacer"></div> -->
+            <div id="layerButtons" style="text-align: center; padding-bottom: 10px">
+                <a id="layerButtons" href="javascript:void(0);" onclick="increaseLayer();" 
+                   title="Click to move forth one layer (towards front of Cube)">[-] One Layer
+                </a>
+                <span id="currentLayer"></span>
+                <a id="layerButtons" href="javascript:void(0);" onclick="decreaseLayer();" 
+                   title="Click to move back one layer (towards back of Cube)">[+] One Layer
+                </a>
+            </div>
+            <!-- <div class="mobile-splitter"></div> -->
+            <div id="syncButton">
+                <a id="syncButton" href="javascript:void(0);" onclick="syncVoxels();" title="Click to resync your drawing to the Cube!">Resync Cube!</a>
+            </div>
+            <div id="colorPicker" style="display: none;">
+                <input type="text" id="colorPicker" value="">
+            </div>
+            <canvas height="401" width="401" id="cube_canvas">
+                Your browser does not support the HTML5 canvas element.
+            </canvas>
+            <!-- <canvas style="padding-left: 15px" height="255" width="155" id="colors_canvas">
+                Your browser does not support the HTML5 canvas element.
+            </canvas>
+            <div class="spacer"></div> -->
+            <div id="clearButtons" style="text-align: center; padding-top: 10px">
+                <a id="clearButtons" href="javascript:void(0);" onclick="clearVoxels(gLayer * kNumPieces, (gLayer * kNumPieces) + kNumPieces);" title="Click to clear the current layer">Clear Layer</a>
+                <span id="currentLayer"></span>
+                <a id="clearButtons" href="javascript:void(0);" onclick="clearVoxels(0, 512);" title="Click to clear the whole Cube">Clear All</a>
+            </div>
+        </div>
+        <!--<div id="colors" style="/*padding-bottom: 15px;*/">
+            <canvas height="196" width="521" id="colors_canvas" >
+                Your browser does not support the HTML5 canvas element.
+            </canvas>
+        </div>-->
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <script src="{% static 'js/cubePainterManager.js' %}"></script>
+    <script type="text/javascript">
+        var $canvas = document.getElementById('cube_canvas');
+        $canvas.addEventListener("click", cubeOnClick, false);
+        // Define the element that will hold the js color picker
+        $("input#colorPicker").spectrum({
+            preferredFormat: "hex",
+            replacerClassName: 'colorPicker',
+            showInitial: true,
+            showInput: true,
+            showPaletteOnly: true,
+            color: 'blanchedalmond',
+            change: function(color) {
+                $("div.sp-container").addClass('sp-hidden');    //$("input#colorPicker").spectrum("hide");
+                var newColor = color.toHexString();
+                gPieces[gSelectedPieceArrayIndex].fillColor = newColor;
+                if(newColor !== '#000000') {
+                    gSelectedColor = newColor;
+                    gPieces[gSelectedPieceArrayIndex].clicks--;
+                }
+                else {
+                    // Remove the checkmark from the black color in the palette
+                    $('div.sp-palette-container').find('span[title=#000000]').removeClass('sp-thumb-active');
+                    // Reset the checkmark to the last selected color in the palette
+                    $('div.sp-palette-container').find('span[title=' + gSelectedColor + ']').addClass('sp-thumb-active');
+                    gPieces[gSelectedPieceArrayIndex].isFilled = false;
+                    gPieces[gSelectedPieceArrayIndex].clicks = 0;
+                }
+                setVoxel(gSelectedPieceIndex, gPieces[gSelectedPieceArrayIndex].fillColor);
+                drawCube();                    
+            },
+            palette: [
+                ["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
+                ["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
+                ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+                ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+                ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+                ["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+                ["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+                ["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
+            ]
+        });
+    </script>
+    {% include "cubetube/partials/_footer.html" %}
+{% endblock %}

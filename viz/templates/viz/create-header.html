@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<script src="{% static 'js/jQuery.MultiFile.min.js' %}" type="text/javascript" language="javascript"></script>
+
+<script type="text/javascript">
+$(function(){
+  $('.file.button').click(function(event){
+    $(this).next('input').click();
+  });
+$("input#nickname").val(nickname);
+$("input#accessToken").val(accessToken);
+
+/*
+document.querySelector('input#images').addEventListener('change', handleFileSelect, false);
+var selDiv = document.querySelector("#image-preview");
+
+function handleFileSelect(e) {
+
+if(!e.target.files || !window.FileReader) return;
+
+selDiv.innerHTML = "";
+
+var files = e.target.files;
+var filesArr = Array.prototype.slice.call(files);
+filesArr.forEach(function(f) {
+//var f = files[i];
+if(!f.type.match("image.*")) {
+return;
+}
+
+var reader = new FileReader();
+reader.onload = function (e) {
+var html = "<img class='preview' src=\"" + e.target.result + "\">";
+selDiv.innerHTML += html;
+}
+reader.readAsDataURL(f); 
+});
+
+}
+*/
+});
+</script>

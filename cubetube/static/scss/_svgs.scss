@@ -1,0 +1,22 @@
+/**
+ * Cubetube SVG's
+ * - Interactive
+ * - Non interactive
+ */
+
+.regular {
+    .part  {
+        @include transition( fill 300ms );
+        fill: #E5E5E5;
+    }
+}
+
+.cube-svg {
+    width: 25px;
+    height: 41px;
+}
+
+.laptop-svg {
+    height: 41px;
+    width: 27px;
+}

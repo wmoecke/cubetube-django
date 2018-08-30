@@ -1,0 +1,329 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    {% include "cubetube/partials/_header.html" with page="docs" large=0 %}
+{% endblock %}
+
+{% block content %}
+<div class="docs-header">
+  <img src="/static/images/docs/cube-head.png" />
+  <h1>Hello!</h1>
+  <p>
+    Welcome to the wonderful world of 3D LED volumetric display!
+  </p>
+  <p>
+      <a href="/docs" title="English Version"><img src="/static/images/docs/flag-usa.png" /></a><br><br>
+      <a href="/static/docs/L3D Cube 8X8X8 __ マニュアル 20161201.pdf" title="L3D Cube 8X8X8 __ マニュアル 20161201" style="text-decoration: none; color: #000; font-weight: bold;" >L3D Cube 8X8X8 __ マニュアル 20161201</a><br>
+      <a href="/static/docs/L3D Cube 簡易操作マニュアル ver.0102.pdf" title="L3D Cube 簡易操作マニュアル" style="text-decoration: none; color: #000; font-weight: bold;" >L3D Cube 簡易操作マニュアル</a><br>
+      <a href="/static/docs/L3D Cube基本説明＿CubuTubeの日本語要約 ver.0102.pdf" title="L3D Cube基本説明＿CubuTubeの日本語要約" style="text-decoration: none; color: #000; font-weight: bold;" >L3D Cube基本説明＿CubuTubeの日本語要約</a>
+  </p>
+</div>
+
+<div class="docs-wrapper clearfix">
+  <ul class="docs-nav"> 
+    <li class="bolder specs"><a>CUBEを動かし始めましょう</a></li>
+    <li class="introduction"><a>まずはじめに</a></li>
+    <li class="cubetube-intro"><a>プログラムをつくる/共有する--- プラットフォーム CubeTube</a></li>
+    <li class="specs-two"><a>8x8x8 タイプCubeの規格</a></li>
+    <li class="assembly"><a>8x8x8 Cubeを組み立てる。</a></li>
+    <li class="bolder powering-up"><a>電源ON</a></li>
+<!--<li class="power"><a>The Power</a></li>-->
+    <li class="bolder default"><a>デフォルトデモモードを起動する</a></li>
+<!--<li class="demos"><a>Demos</a></li>-->
+    <li class="bolder connecting"><a>WiFiに接続</a></li>
+    <li class="listening"><a>Photonをリスニングモードにする</a></li>
+    <li class="using-particle"><a>Particleアプリを使って、WiFiへ接続</a></li>
+    <li class="claiming-photon"><a>あなたのPhotonのクレームプロセス（所有権を獲得）を実行する</a></li>
+    <li class="wifi-locations"><a>新しいWiFiネットワークの場所へ移動した場合</a></li>
+    <li class="bolder cubetube"><a>CUBETUBE:３次元表現のワンダーランド</a></li>
+    <li class="loading-apps"><a>CubeTube中のプログラムをあなたのキューブにダウンロードしましょう！</a></li>
+    <li class="programming"><a>CubeTube上でプログラムを作成！</a></li>
+<!--<li class="bolder code-for-cubes"><a>Code for cubes</a></li>
+    <li class="bolder multiple-cubes"><a>Connecting Multiple Cubes</a></li>-->
+    <li class="bolder open-source"><a>Opensource License：オープンソースライセンス</a></li>
+<!--<li class="bolder improvements"><a>Improvements List</a></li>
+    <li class="bolder troubleshooting"><a>Troubleshooting</a></li>-->
+  </ul>
+
+<div class="docs-main">
+  <img src="/static/images/docs/white-cube.png"/>
+  <div class="docs-text-area">
+
+    <!-- The cube -->
+    <h1 id="specs">CUBEを動かし始めましょう！</h1>
+    <h2 id="introduction">まずはじめに</h2>
+    <p>
+このセクションでは、あなたのCube上でプログラムをつくったり、シェアしたりするための方法を説明いたします。
+</p>
+<p>
+  8x8x8型のL3D Cubeは512個のLEDチップを立法的に実装したもので、USBケーブルや備え付けの蓄電池シールドから電力が供給されます。また、WiFiに接続することもできます。Cubeの頭脳とも言うべき機能を果たし、Wifi接続機能を担う重要なデバイスは、”Particle Photon”と呼ばれるもので、Arduinoの言語によってプログラムされます。さらに、マイクロフォンや加速度センサーがCubeに取り付けられていますので、音楽との視覚的コラボレーションやモーションとの相互作用的プログラムにも活用できるのです。
+    </p>
+    <div class="question-section">
+      <img src="/static/images/docs/question.png" />
+      <p>
+        もし、何か質問があれば、 <a href="/forum/">Forum</a>に来ていただくか、Shawn＆Alexに<a href="mailto:info@lookingglassfactory.com">info@lookingglassfactory.com</a>ご連絡ください。  
+      </p>
+    </div>
+<h2 id="cubetube-intro">プログラムをつくる/共有する--- プラットフォームCubeTube</h2>
+<p>
+キューブを持つことの最大のバリューの一つは、世界にまたがる３D光プログラムのコミュニティ「CubeTube」の一員にあなた自身がなれることです。マウスでワンクリックするだけで、CubeTube.orgから新しいプログラムをダウンロードして、Cubeに取り組むことができるのです。ここまでなら、プログラミングスキルは全く必要ありません。
+</p>
+<p>
+勿論、プログラマーの方はここから更にお楽しみ頂くことが可能です。CubeTubeのwebブラウザーのウィンドウにプログラムコードを直接書き込むことができるのです。つくったプログラムは、あなたの3DキューブでPreviewでき、そのプログラムはCubeTube上で簡単に全世界に公開することができます。他のユーザーの作成した既存のコードを起点として、変更を加えてあなたのオリジナルコードへと発展させることもできます。
+</p>
+    <h2 id="specs-two">8x8x8 タイプCubeの規格</h2>
+    <p>
+      2016年6月現在、２種類のタイプのL3Dキューブがあります。8x8x8tタイプ（合計512個のLEDチップを使用）と16x16x16タイプ（合計4096個のLEDチップを使用）です。Cubeの頭脳とも言うべき機能を果たし、Wifi接続機能を担う重要なデバイスは、”Particle Photon”と呼ばれるもので、Arduinoの言語によってプログラムされます。さらに、マイクロフォンや加速度センサーがCubeに取り付けられています。  
+    </p>
+    <p>
+      <b>LEDs:</b> 使用されているLEDは、WorldSemi社製のWS2812Bを採用しており、それぞれのLEDリードに対して８個のLEDチップが実装されています。LEDリードは等しくPCB基板に接続されています。
+    </p>
+    <p>
+      <b>電源:</b> 一般的なUSB電源やUSBポートからあなたのCubeへ電力の供給ができます。2AのUSBアダプターが商品箱に同梱されており、ご家庭でもご利用いただけます。  
+    </p>
+    <p>
+      <b>Note 1:</b><br>
+      8x8x8 Cubeの基板へは1.7A以下に電流が制限されるようになっております。
+    </p>
+    <div>
+      <b>Note 2:</b><br>
+        Maker/Hackerなどのプロユーザーの方が、もっと高い輝度でキューブを光らせたい場合は、バイパス接続で電流を供給することができるようになっております。これらの変更の仕方は、Forumで議論されてしますので、是非ご覧ください。
+      <!--
+        <div class="offline-image baseboard">
+          <img src="/static/images/docs/chips-1.png" />
+          <p>
+            Baseboard of the 8x8x8 Cubes.
+          </p>
+        </div>
+   -->
+
+    </div>
+     <div> 
+      <div class="offline-image">
+        <img src="/static/images/docs/black-cube.png" />
+        <p>
+          8x8x8 Edition with 512 RGB LEDs
+        </p>
+      </div>
+      <b>ケース:</b> レーザー加工で切り出したアクリルケースを使用しています。
+    </div>
+    <h2 id="assembly">8x8x8 Cubeを組み立てる。</h2>
+    <p>
+      30分もあれば、商品箱に中にあるパーツから8x8x8 L3Dキューブを組み立てることができます。必要であれば、組み立てのビデオ
+    </p>
+
+    <iframe src="https://player.vimeo.com/video/112660603" width="560" height="310" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+    <p>
+      をご参考ください。組み立てのマニュアルはこちら <a href="https://www.dropbox.com/sh/tyudi407wq55rf2/AADVB_WFlFF6lbwUJyrFKErga?dl=0">here</a> からもダウンロード可能です。
+    </p>
+
+    <hr>
+
+    <!-- POWERING UP -->
+    <h1 id="powering-up">電源ON</h1>
+<!--<h2 id="power">The power</h2>-->
+    <p>
+      キューブは、同梱されている2AのUSB電源によって、もしくはパソコンのラップトップなどの電源ポートからUSBケーブルでつなぐことで、電源を入れることができます。
+    </p>
+
+    <hr>
+
+    <!-- Default demo's -->
+    <h1 id="default">デフォルトデモモードを起動する</h1>
+<!--<h2 id="demos">Demos</h2>-->
+    <p>
+      8x8x8キューブは、４つのデモプログラムがプリインストールされています。
+    </p>
+    <ul>
+      <li><b>Demo 1.</b> Fireworks</li>
+      <li><b>Demo 2.</b> Zplasma</li>
+      <li><b>Demo 3.</b> Squarral</li>
+      <li><b>Demo 4.</b> FFTJoy (サウンドリアクティブ)</li>
+    </ul>
+    <p>
+      ４つのデモは、無限ループします。ループをとめて１つのプログラムを選んだりするには、キューブを右や、左、または前方に傾けてください。
+    </p>
+    <p>
+      電源を再接続することで再び無限ループがスタートします。
+    </p>
+
+    <img class="preload-demo" src="/static/images/docs/preload-demo.png" />
+
+    <hr>
+
+    <!-- Connecting to WiFi -->
+    <h1 id="connecting">WiFiに接続</h1>
+    <p>
+      あなたのキューブはParticle アプリを通してWiFi接続します。その方法は、<a href="https://particle.io">particle.io</a>で参照いただけます。
+    </p>
+    <h2 id="listening">Photonをリスニングモードにする</h2>
+    <p>
+      キューブは、”Particle Photon”と呼ばれるデバイスによって制御されています。この小さい電子基板に、USBケーブルを挿入することで、Cube全体の電源をONにすることができます。
+    </p>
+    <p>
+      8x8x8 L3D Cubeを初めてご使用になられるとき、キューブの後ろ側についているスライダースイッチを”Online”に動かしてください。”Particle Photon”が青く点滅を始めるはずです。もし、そうならなければ、”Particle Photon”の隣にある”Join WiFi”ボタンを押してみてください。
+    </p>
+    <p>
+      もしPhotonが青く点滅しはじめたら、それはあなたのいる場所のWiFiネットワークに接続する準備ができている状態です。Particleアプリを通してローカルWiFiネットワークへの接続が可能となります。
+    </p>
+
+    <iframe class='vine-embed' src="https://vine.co/v/eZUHUIjq7pO/embed/simple" width="560" height="560" frameborder='0'></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
+
+    <h2 id="using-particle">Particleアプリを使って、WiFiへ接続</h2>
+    <p>
+      <a name="particle-app">Particle Appを</a><a href="https://itunes.apple.com/us/app/particle-build-photon-electron/id991459054?mt=8">App Store</a> や <a href="https://play.google.com/store/apps/details?id=io.particle.android.app">Google Play</a>からダウンロードすることができます。
+    </p>
+    <div>
+      Apple StoreやGoogle playからParticleアプリをスマートフォンにダウンロード後、まずアカウントを作成します。その後、Photonへ接続するように求められます。
+      <div class="offline-image particle">
+        <img src="/static/images/docs/particle-login.png" />
+        <p>
+          Particleアプリのiosでのログイン画面
+        </p>
+      </div>
+    </div>
+
+    <div class="question-section wifi-question">
+      <img src="/static/images/docs/wifi-symbol.png" />
+      <p>
+        あなたのスマートフォンは、Photonを実際に接続する予定のWiFiネットワークにつながっていないといけません。※Photonアプリを使用中の携帯によるWi-Fiホットスポット（テザリング）の場合、通常”no Wi-Fi available”というエラーを生じ、クレームプロセスが成功しません。  
+      </p>
+<!--  <p>
+        In this case, please try to <a href="http://docs.particle.io/photon/connect/#connecting-your-device-connect-over-usb">Connect over USB</a> and enter your Hotspot credentials manually.
+      </p>-->
+    </div>
+    <p>
+      WiFi接続がなされると、Particleアプリは自動的にSSID一覧に現在、スマホが接続しているネットワーク名を表示します。Wi-Fiパスワードを入力して、接続（”connect”）をクリックしてください。（※詳細は、別のPDF「L3D簡易操作マニュアル」をご欄ください）
+    </p>
+    <p>
+      この接続プロセスは１分ほどお待ちいただくかもしれません。スマホを”Particle Photon”デバイスへ近づければ近づけるほど、より早く接続が完了するはずです。一旦、Photonの接続が始まると、進捗に応じてPhotonのライトが次のような順番で光っていきます。
+    </p>
+    <p>
+      <ul>
+        <li>青に発光:　認証情報の確認完了</li>
+        <li>緑色で点滅:　Wi-Fiネットワークへ接続中</li>
+        <li>シアン色で点滅：　Particleクラウドへ接続中</li>
+        <li>シアン色でゆっくりと点滅：　クラウドへの接続完了</li>
+      </ul>
+    </p>
+    <p>
+      一旦、Particle Photonが接続に成功すると、あなたのスマホがPhotonに対するクレームプロセス（所有権を獲得）を実行して、そのPhotonをあなたのアカウントへ帰属させます。その際には、あなたのphotonに対して名前をつけることができます。もし、クレームプロセスがうまくいったかどうか不明な場合は、その <a href="https://www.particle.io/build">Particle Web IDE</a>にログインし、ページの下にある“Photons”アイコンをクリックしてください。もし、そこにあなたのPhotonの名前があれば、クレームプロセスが成功していることになります。
+    </p>
+    <div class="question-section">
+      クレームプロセスの際には、PhotonはWiFiネットワーク上でオンライン（シアン色でゆっくりと点滅）していなければなりません。もし、Particle Photonがすでに他の誰かによってクレームプロセス済であれば、Particle アプリは、そのphotonを認識しません。（他人によってクレームプロセス済のPhotonの所有権を獲得することはできません）  
+    </div>
+    <p>
+      クレームプロセスの際には、PhotonはWiFiネットワーク上でオンライン（シアン色でゆっくりと点滅）していなければなりません。もし、Particle Photonがすでに他の誰かによってクレームプロセス済であれば、Particle アプリは、そのphotonを認識しません。（他人によってクレームプロセス済のPhotonの所有権を獲得することはできません）
+    </p>
+    <p>
+      もし、あなたが複数のPhotonを接続する場合、このクレームプロセスをそれぞれのPhotonに対して行わなければなりません。複数のPhotonがある場合、混乱を避けるために、クレームプロセスの最中は、１度に１つのPhotonだけに電源を入れてクレームプロセスを実行してください。
+    </p>
+
+    <h2 id="claiming-photon">あなたのPhotonのクレームプロセス（所有権を獲得）を実行する</h2>
+    <p>
+      あなたのCubeのPhotonがParticle アプリ経由でWiFi接続されると、あなたのアカウントに関連づけられて、CubeのPhotonの所有権が獲得されます（クレームプロセス）。これによって、あなたのCube（のphoton）をあなたのアカウントでのみ制御することが可能になり、他人からあなたのCubeが操作されることを防ぎます。
+    </p>
+<!--<p>
+      If you use the mobile app to set up your Photon, it should claim it automatically. However if you connect your Photon over USB, or if the claiming process is unsuccessful, you can claim it manually.
+    </p>
+    <p>
+      The easiest way to manually claim a Photon over USB is to use the <a href="https://github.com/spark/spark-cli">Particle Command Line Interface</a>. Once you have this installed, you can simply type particle setup and follow the instructions.
+    </p>
+    <p>
+      Alternatively, if you have troubles installing the command line tool,  you can get the Photon’s ID over serial and claim it via the build site. You can do this by opening a Serial connection to the Photon and pressing  the i key (see the above instuctions for connecting over USB). It should show you a number like this:
+    </p>
+    <p>
+      <b><i># Example Photon ID55ff68064989495329092587</i></b>
+    </p>
+    <p>
+      Then open up <a href="https://www.particle.io/build">Particle Build</a> and click the ’Photons’ icon. Click the button that says ’Add a Photon’, and enter your ID in the text box.
+    </p>-->
+
+    <h2 id="wifi-locations">新しいWiFiネットワークの場所へ移動した場合</h2>
+    <p>
+      新しいWiFiネットワークの場所へ移動した際には、CubeのParticle PhotonをListening mode（リスニングモード）に戻してください。リスニングモードにするには、キューブの基板の裏側にある大きな丸い”Join WiFi” ボタンをクリックします。これによってParticle Photonの内部メモリーに保存していたプログラムが消去されることは無く、あくまでWiFiの認証情報をクリアしてParticle Photonをリスニングモードに戻すだけです。新しいWiFiネットワークにつながるために、上述したクレームプロセスを再度実行してください。
+    </p>
+
+    <hr>
+
+    <!-- Loading Cubetube Apps -->
+    <h1 id="cubetube">CUBETUBE:３次元表現のワンダーランド</h1>
+    <h2 id="loading-apps">CubeTube中のプログラムをあなたのキューブにダウンロードしましょう！</h2>
+<p>初めてCubeTube.orgを訪れたら、まずは“Join or Log in” ボタンをクリックして、ログインしましょう。その際に使用するusernameとpasswordは、先のステップでWiFi接続する際に作ったparticle ioのusernameとpasswordと同一です。
+</p>
+<p>「Gallery」 に沢山の光プログラムがあります。それらを見ながらマウスのカーソルをご指定のプログラム上に移せば、プログラムのシュミレーション画像が見ることができます。</p>
+<center><img src="/static/images/docs/cubetube-mouseover.gif" /></center>
+<p>もし、お好きなプログラムがありましたら、あなたのCubeにロードするために、次の手順を進めてください。</p>
+    <p>
+      <ol>
+        <li>まず、ドロップダウンメニューから、オンラインしているあなたのCubeを選択</li>
+        <li>”Send to Cube” をクリック</li>
+        <li>Particle PhotonのLEDは紫色の点滅（プログラムをダウンロード中を意味する）をはじめます。ダウンロードには10-45秒ほど時間がかかります。</li>
+      </ol>
+    </p>
+    <h2 id="programming">CubeTube上でプログラムを作成！</h2>
+    <p>CubeTubeのブラウザーのウィンドウ上にコードを直接書き込むことが可能です。他のユーザーの作成したプログラムを改変して表示させたり、あなたのプログラムを全世界のCubeTubeコミュニティと共有することも可能です。</p>
+<img src="/static/images/docs/cubetube-code.png" width="85%"/>
+    <p>他のユーザーのプログラムを利用したり、青い”Create” ボタンをクリックすることで、ゼロからオリジナルのプログラムを立ち上げることもできます。</p>
+    <hr>
+
+    <!-- Connecting multiple cubes (advanced)
+    <h1 id="multiple-cubes">Connecting multiple cubes</h1>
+    <p>
+      Coming soon
+    </p>
+
+    <hr> -->
+
+    <!-- Opensource License -->
+    <h1 id="open-source">Opensource License：オープンソースライセンス</h1>
+    <h2>以下、ハードウェア/ファームフェア/Particle/CubeTubeのプログラム作成に関するライブラリー等の詳細は以下を参照ください。</h2>
+    <div class="question-section no-padding">
+      Cube firmware: <a href="https://github.com/enjrolas/L3D-Software">https://github.com/enjrolas/L3D-Software</a>
+    </div>
+    <div class="question-section no-padding">
+      Cube hardware: <a href="https://github.com/enjrolas/L3D-Hardware">https://github.com/enjrolas/L3D-Hardware</a>
+    </div>
+    <div class="question-section no-padding">
+      Processing library: <a href="https://github.com/enjrolas/L3D-library">https://github.com/enjrolas/L3D-library</a>
+    </div>
+    <div class="question-section no-padding">
+      Particle library included with cubetube apps: <a href="https://github.com/enjrolas/Cubetube-Library">https://github.com/enjrolas/Cubetube-Library</a>
+    </div>
+    <p>
+      L3D Cubeのプログラムの仕方についてのインストラクション「<a href="http://www.instructables.com/id/How-to-Draw-Sweet-3D-Graphics-for-LED-cubes/">How to Draw Sweet 3D Graphics for LED cubes</a>」も御覧いただけます。
+    </p>
+
+    <hr>
+
+    <!-- Improvements List
+    <h1 id="improvements">Improvements List</h1>
+    <p>
+      This is a list of hardware, firmware, & software improvements we’re strongly considering implementing in follow-up revs of the L3D Cube.  These improvements are based on ideas at Looking Glass Lab & within the community via the Kickstarter comment boards and the CubeTalk Forum.
+    </p>
+
+    <hr> -->
+
+    <!-- Troubleshooting
+    <h1 id="troubleshooting">Troubleshooting</h1>
+    <p>
+      The very first L3D Cube owners are just getting their Cubes now and we’re in the process of making a Troubleshooting list.
+    </p>
+    <p>
+      For now, if you’re having trouble connecting your Cube to WiFi or downloading Apps from CubeTube, please head over to the Forum and post your question there...someone in the community or within the Looking Glass team will help out!  
+    </p>
+    <p>
+      We will then compile the most frequently encountered issues in this section.
+    </p> -->
+
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    {% include "cubetube/partials/_footer.html" %}
+{% endblock %}

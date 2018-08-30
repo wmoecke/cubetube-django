@@ -1,0 +1,192 @@
+{% load staticfiles %}
+<html>
+<head>
+	<!--jquery loading !-->
+	<script src="{% static 'js/jquery-1.11.2.min.js'%}"></script>
+
+	<!-- processing !-->
+	<script src="{% static 'js/processing.min.js'%}"></script>
+	<script src="{% static 'js/jsbeautify.js'%}"></script>
+	<script src="{% static 'js/processing-helper.js'%}"></script>
+
+	<!--  UI JS ~-->
+	<script src="{% static 'js/streaming-ui.js'%}"></script>
+
+	<!-- L3D JS code --->
+	<script src="{% static 'js/loadSparkCode.js'%}"></script>
+
+	<!-- CODE MIRROR !-->
+	<link rel="stylesheet" href="{% static 'codeMirror/doc/docs.css'%}">
+	  <link rel="stylesheet" href="{% static 'codeMirror/lib/codemirror.css'%}">
+	    <link rel="stylesheet" href="{% static 'codeMirror/theme/tomorrow-night-eighties.css'%}">
+	      <script src="{% static 'codeMirror/lib/codemirror.js'%}"></script>
+	      <script src="{% static 'codeMirror/mode/javascript/javascript.js'%}"></script>
+	      <script src="{% static 'codeMirror/addon/selection/active-line.js'%}"></script>
+	      <script src="{% static 'codeMirror/addon/edit/matchbrackets.js'%}"></script>
+	      <style type="text/css">
+		  canvas 
+		  { 
+		  width: 500px; 
+		  height: 500px; 
+		  border: 1px solid;
+		  }
+		  body {
+		  background-color: #777777;
+		  }
+		  #code-wrapper{
+		  width: 500px;
+		  height: 500px;
+		  float:left;
+		  }
+		  #sketch-container{
+		  width: 400px;
+		  float:left;
+		  margin-left: 30px;
+		  }
+		  #output-wrapper{
+		  width: 100%;
+		  height: 200px;
+		  } 
+		  p.bold{
+		  font-weight:bold;
+		  }
+		</style>
+
+	<script type="text/javascript">
+	  var sparkCode;
+	  var translatedCode="";
+	  var canvasControl="";  //background(0);\ntranslate(width/2, height/2);\nrotateY(mouseX/50);\nrotateX(mouseY/50);
+	                         //we don't need this, now that I moved it to the library draw() function
+	  var translation={};  //the translation list is for basic keyword find-and-replace
+	  translation["loop()"]="draw()";
+	  translation["cube.show()"]="cube.draw()";
+	  translation["Point"]="PVector";
+	  translation["black)"]= "color(0x00, 0x00, 0x00))";
+	  translation["grey)"]= "color(0x92, 0x95, 0x91))";
+	  translation["yellow)"]= "color(0xff, 0xff, 0x14))";
+	  translation["magenta)"]= "color(0xc2, 0x00, 0x78))";
+	  translation["orange)"]= "color(0xf9, 0x73, 0x06))";
+	  translation["teal)"]= "color(0x02, 0x93, 0x86))";
+	  translation["red)"]= "color(0xe5, 0x00, 0x00))";
+	  translation["brown)"]= "color(0x65, 0x37, 0x00))";
+	  translation["pink)"]= "color(0xff, 0x81, 0xc0))";
+	  translation["blue)"]= "color(0x03, 0x43, 0xdf))";
+	  translation["green)"]= "color(0x15, 0xb0, 0x1a))";
+	  translation["purple)"]= "color(0x7e, 0x1e, 0x9c))";
+	  translation["white)"] = "color(0xff, 0xff, 0xff))";
+	  translation["int "]="var ";
+	  translation["unsigned int "]="var ";
+	  translation["char "]="var ";
+	  translation["unsigned char "]="var ";
+	  translation["String "]="var ";
+	  translation["float "]="var ";
+	  translation["Color "]="color ";
+	  translation["Color("]="color(";
+	  translation["rand()"]="random(1000000)";
+	  var parts;
+
+	  var ignoreList=["include", "cube.begin"];  //ignore list is for lines that only make sense in C, so we'll drop them completelyfrom the javascript
+
+	  var flagList={};     //the flag list contains lines that require some restructuring beyond a simple find-and-replace.  
+	  //This runs after the translation list, but on the C++ data structures and syntax
+	  flagList["Cube "]=0;
+	  flagList["draw()"]=0;
+	  flagList["PVector"]=0;
+	  flagList["setup()"]=0;
+	  
+	  
+	  $.get("{% url 'code' source.pk %}", function(data) {
+	  sparkCode=data.split('\n');  //sparkCode is an array of lines in the data file
+	  jsCode=[];
+	  var cubeObject;
+	  var cubeObjectName;
+	  for(var i=0;i<sparkCode.length;i++)
+			  {
+			  $("#sparkCode").append(sparkCode[i]+"<br/>");
+			  var ignoreFlag=false;
+			  for(var j=0;j<ignoreList.length;j++)
+		          {
+		            if(sparkCode[i].indexOf(ignoreList[j])>=0)
+			       ignoreFlag=true;
+			  }
+			  //if the line is valid, we now loop through all the translations and apply them to the line
+			  if(ignoreFlag==false)
+			  {
+			  line=sparkCode[i];
+			  for(var key in translation){
+			  line=line.replace(key, translation[key]);
+			  }
+			  //now add the translated line to the JS code
+			  jsCode.push(line)
+			  }
+			  }
+        for(var i=0;i<jsCode.length;i++)
+			{
+			var line=jsCode[i];
+			  for(var key in flagList)
+			      if(line.indexOf(key)>=0)
+			          flagList[key]++;
+			  if(flagList["Cube "]==1)  //we've initialized the cube object, let's find out its name
+			  {
+			  parts=line.split(' ');
+			  cubeObjectName=parts[1];
+			  console.log("cube object name: "+cubeObjectName);
+			  flagList[cubeObjectName]="0";
+			  line="Cube "+cubeObjectName+";";
+			  jsCode[i]=line;
+			  flagList["Cube "]=0;
+			  }
+			  if(flagList["setup()"]==1)
+			  {
+			  if(line.indexOf("{")>=0)
+	                   {
+	                     parts=line.split("{");
+	                     line=parts[0]+"{"+cubeObjectName+"=new Cube(this);"+"size(500,500, P3D);"+parts[1];
+	                     jsCode[i]=line;
+	                     flagList["setup()"]=0;
+	                   }	
+	                  }
+
+			  if(flagList["PVector"]==1)
+			  {
+			  line=line.replace("{", "new PVector(");
+			  line=line.replace("}", ")");
+			  jsCode[i]=line;     //replace the line in the code
+			  flagList["PVector"]=0;
+			  }
+
+			  if(flagList["draw()"]==1)
+			  {
+			  if(line.indexOf("{")>=0)
+	                   {
+	                     parts=line.split("{");
+	                     line=parts[0]+"{"+canvasControl+parts[1];
+	                     jsCode[i]=line;
+	                     flagList["draw()"]=0;
+	                   }
+			  }
+			  $("#jsCode").append(line+"<br/>");
+	                  translatedCode+=line+"\n";
+			}
+
+	  });
+	  </script>
+</head>
+<body>
+
+		<div id="code-wrapper" class="edit code">
+		  Native L3D source:<br/>
+		    <textarea rows="80" cols="120" id="code">{{ source.code }}</textarea>
+		  <img onclick="runSparkSketch();" src="{% static 'i/run.png'%}" width="32px">  Run Sketch
+		  </div>
+
+		  <div id="sketch-container">
+		    <canvas id="sketch"></canvas>
+		  </div>
+		  <div id="output-wrapper">
+		    <h2>Output</h2>
+		    <textarea cols="222" rows="10" id="output" readonly="readonly">None.</textarea>
+		  </div>
+</div>
+</body>
+</html>

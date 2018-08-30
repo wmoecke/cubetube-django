@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Upload pictures</title>
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <link href="{% static 'fileupload/css/dropzone.css' %}" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+<form id="my-awesome-dropzone" class="dropzone" action="{% url 'home' %}" method="post" enctype="multipart/form-data">>
+            {% csrf_token %}
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+            </div>
+  <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+
+  <!-- Now setup your input fields -->
+  <input type="email" name="username" />
+  <input type="password" name="password" />
+
+  <button type="submit">Submit data and files!</button>
+</form>
+
+
+        <script src="{% static 'fileupload/js/dropzone.js' %}"></script>
+        <script src="{% static 'fileupload/js/dropzone-config.js' %}"></script>
+    </body>
+</html>

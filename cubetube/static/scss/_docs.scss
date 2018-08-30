@@ -1,0 +1,195 @@
+.docs-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 5px 6px -7px rgba(0, 0, 0, 0.2);
+    padding-bottom: 50px;
+    padding-top: 120px;
+    text-align: center;
+    max-width: 1250px;
+    margin: auto;
+
+    h1 {
+        font-size: 36px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 16px;
+    }
+}
+
+.docs-wrapper {
+    max-width: 1250px;
+    min-width: 1250px;
+    margin: auto;
+    padding-bottom: 50px;
+    position: relative;
+}
+
+.docs-nav {
+    font-family: 'roboto';
+    list-style: none;
+    padding: 0px;
+    float: left;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    background: #fff;
+    margin-top: 0px;
+    padding-top: 30px;
+    width: 320px;
+    padding-left: 15px;
+
+    &.fixed {
+        position: fixed;
+        top: 55px;
+    }
+
+    &.absolute {
+        position: absolute;
+        bottom: 0px;
+    }
+
+    .bolder {
+        font-family: "proxima-nova", sans-serif;
+        font-weight: bold;
+
+        a {
+            font-size: 14px;
+            color: #000;
+        }
+    }
+
+    ul {
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    li {
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+
+    a {
+        font-size: 14px;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.4);
+    }
+}
+
+.docs-main {
+    width: 880px;
+    float: right;
+    padding-top: 55px;
+
+    h1, h2 {
+        text-align: left;
+    }
+
+    .docs-text-area {
+        width: 560px;
+        margin-right: 30px;
+        text-align: left;
+    }
+
+    h1 {
+        line-height: 38px;
+    }
+
+    h2 {
+        font-family: "proxima-nova", sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #000;
+    }
+
+    p, div {
+        position: relative;
+        font-family: 'roboto';
+        color: #9199aa;
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 20px;
+
+        b {
+            color: #000;
+        }
+    }
+
+    a {
+        color: $blue;
+        text-decoration: none;
+    }
+
+    hr {
+        border-top: 0px;
+        border-bottom: 1px solid #ddd;
+        margin-top: 50px;
+        margin-bottom: 60px;
+        border-left: 0px;
+    }
+
+    ul {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .question-section {
+        background: #fcfcfc;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-bottom: 40px;
+        font-size: 13px;
+
+        &.no-padding {
+            margin-bottom: 10px
+        }
+
+        img {
+            float: left;
+            margin-top: 17px;
+            padding-right: 20px;
+        }
+
+        p {
+            color: #333;
+            font-style: italic;
+        }
+
+        &.wifi-question {
+
+            img {
+                padding-bottom: 50px;
+                padding-top: 40px;
+            }
+        }
+    }
+
+    .preload-demo {
+        margin-top: 20px;
+    }
+
+    .offline-image {
+        position: absolute;
+        bottom: -20px;
+        right: -330px;
+        width: 290px;
+        border-bottom: 5px solid $blue;
+
+        &.baseboard {
+            bottom: -70px;
+        }
+
+        &.spark {
+            bottom: -247px;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+    }
+}

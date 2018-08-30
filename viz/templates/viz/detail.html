@@ -1,0 +1,95 @@
+{% extends "cubetube/base.html" %}
+{% load staticfiles %}
+{% block header %}
+{% include "viz/detail-header.html" %}
+{% endblock %}
+
+{% block content %}
+
+<main>
+  <div class="detail">
+   <div class="project">
+      <div class="images">
+	 <div id="galleria">
+	   {% for photo in photos %}
+	   <a href="{{ photo.file.url }}">
+	     <img src="{{ photo.file.url }}">
+	   </a>
+	   {% endfor %}
+	 </div>
+	</div>
+      <script>
+
+	// Load the classic theme
+	Galleria.loadTheme("{% static 'galleria/themes/classic/galleria.classic.min.js' %}");
+	
+	// Initialize Galleria
+	Galleria.run('#galleria');  
+      </script>
+      <div class="info">
+	<div class="projectTitle">
+	  {{ viz.name }}
+	  {% if viz.creator.nickname == request.COOKIES.nickname %}
+	  <a href="{% url 'edit' viz.pk %}"><img src="{% static 'i/edit.png' %}" height="30%" ></a>
+	  <!-- <div id="edit"><a href="#">edit</a></div> -->
+	  {% endif %}
+	</div>
+	<a href="#" class="author">{{ viz.creator }}</a>
+	<div class="projectDetail">
+	  {{ viz.tagline }}
+	  </div>
+	<div class="others">
+	  <div class="sendCubeButton" id="flashCube">
+	    Send to my cube
+	    </div>
+	
+	  <div class="social">
+<!--	    <a href="#"  target="_blank" class="icon-googleplus"></a>  -->
+	    {% with facebook="https://www.facebook.com/sharer/sharer.php?u=http://"|add:request.get_host|add:request.get_full_path %}    
+	    <a href="{{ facebook }}" target="_blank" class="icon-facebook"></a>
+	    {% endwith %}
+	    {% with twitter="https://twitter.com/intent/tweet?text=check+out+this+viz+by+"|add:viz.creator.nickname|add:"+on+cubetube:  "|add:request.get_host|add:request.get_full_path|add:"&source=clicktotweet&related=clicktotweet" %}    
+	    <a href="{{ twitter }}"  target="_blank" class="icon-twitter"></a>
+	    {% endwith %}
+	    <!-- <a href="#"  target="_blank" class="icon-vine"></a> -->
+	    </div>
+
+	  </div>
+	</div>
+ {% if viz.sourceURL != "" %}     <div id="source-code"><br/>Check out the source code for this viz <a href="{{ viz.sourceURL }}">here</a>.</div> {% endif %}
+ {% if viz.vizType != "streaming" %}      <div id="binary"><br/>Download the compiled binary <a href="{{ binary.file.url }}">here</a>.</div>  {% endif %}
+
+{% if viz.vizType == "streaming" %}
+<div class="streaming-explanation">
+<p>This is a streaming viz.  That means that a program lives on the cube, listening for graphics over wifi, and another program runs on your computer, draws the graphics and sends them to your cube.  When you click the 'send to my cube' button for this viz, it will load the listening program onto your cube.  To run the viz, click on the <a href="{{ viz.sourceURL }}">source link</a>, copy the source, and paste it into processing.</p>
+<p>If you don't have Processing, you can get it <a href="https://processing.org/download/">here</a>.  You'll also need to install the <a href="https://github.com/enjrolas/L3D-library">L3D processing library</a>.</p>
+<p>Do you just want to get a frickin thing to run on your frickin cube?  Try <a href="{% url 'gallery' %}?vizType=spark">these native apps</a>, which you can load from the browser with the click of a button</p>
+</div>
+{% endif %}
+
+
+       <div class="long-description">{{ viz.description }} </div>
+
+      <div class="clr"></div>
+      </div>
+
+
+    <div class="comment">
+      <h3>Comments</h3>
+      <div class="existingComments">
+      {% for comment in comments %}
+      <div class="commentEntry">
+	<a href="#" class="author">{{ comment.commenter.nickname }}</a> says:
+	<p>{{ comment.comment }}</p>
+	</div>
+      {% endfor %}
+      </div>
+      <div class="commentEntry requireLogin">
+	<a href="#" class="author author-self">You</a>
+	<div class="commentButton">OK</div>  
+	<textarea id="userComment" name="" rows="5" placeholder="What's on yer mind?"></textarea>
+	</div>
+      </div>
+    </div>
+</main>
+{% endblock %}

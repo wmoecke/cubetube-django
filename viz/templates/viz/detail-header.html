@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<title>{{ viz.name }} by {{ viz.creator.nickname }}</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/viz.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'galleria/themes/classic/galleria.classic.css' %}"/>
+<script src="{% static 'galleria/galleria-1.4.2.min.js' %}"></script>
+
+
+<!-- for Google -->
+<meta name="description" content="{{ viz.tagline }}" />
+<meta name="keywords" content="cubetube L3D 3D cube LED" />
+<meta name="author" content="{{ viz.creator.nickname }}" />
+<meta name="copyright" content="" />
+<meta name="application-name" content="cubetube" />
+
+<!-- for Facebook -->          
+<meta property="og:title" content="{{ viz.name }} by {{ viz.creator.nickname }} on cubetube" />
+<meta property="og:type" content="article" />
+{% with photos|first as photo %}
+<meta property="og:image" content="{{ photo.file.url }}" />
+{% endwith %}
+<meta property="og:url" content="{{ 'http://'|add:request.get_host|add:request.get_full_path }}" />
+<meta property="og:description" content="{{ viz.description }}" />
+
+<!-- for Twitter -->          
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="{{ viz.name }} by {{ viz.creator.nickname }} on cubetube"  />
+<meta name="twitter:description" content="cubetube viz:  {{ viz.name }} by {{ viz.creator.nickname }}" />
+{% with photos|first as photo %}
+<meta property="twitter:image" content="{{ photo.file.url }}" />
+{% endwith %}
+
+
+<script type="text/javascript">
+
+$(function(){
+    $("#flashCube").click( function(e){
+        e.preventDefault();  //prevent the page from reloading 
+flash();
+});
+
+$(".social").css("padding-top","0");
+
+function setGlowyHead()
+{
+$(".social").html("<img src='{% static 'i/glowy-cubehead.gif' %}' class='animation'>");
+setTimeout(function(){
+$(".social").html("");
+}, 10000);
+}
+
+function flash(){
+$(".social").addClass("animation");
+$(".social").html("<img src='{% static 'i/wiggly-cubearms.gif' %}' class='animation'>");
+{% if binary != None %}
+    $.post("{% url 'flash' binary.pk %}",
+           {
+             accessToken: accessToken,
+             coreID: coreID,
+}).always(function(){
+setGlowyHead()
+});
+{% endif %}
+}
+
+
+$('.commentButton').click(function(event){
+var comment=$("#userComment").val();
+var viz={{ viz.pk }};
+$.post("{% url 'newComment' %}",
+{
+comment: comment,
+viz: viz,
+}).always(function(){
+
+var newComment="<div class='commentEntry'><a href='#' class='author'>"+nickname+"</a> says:<p>"+comment+"</p></div>";
+
+$(".existingComments").append(newComment);
+$("#userComment").val('');
+});
+  });
+
+});
+
+
+</script>

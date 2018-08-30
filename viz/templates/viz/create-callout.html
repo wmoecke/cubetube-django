@@ -1,0 +1,22 @@
+{% load utils %}
+{% logged_in_status as logged_in %}
+
+<div class="create-callout">
+    <div class="section shadowed-line"></div>
+    <img src="/static/images/github-spark.png" />
+    <h1>
+        Explore and share your visualization<br>
+        with the Cubetube community
+    </h1>
+    {% if logged_in %}
+        <a class="button blue create" href="/create">
+            Create a visualization
+        </a>
+    {% else %}
+        <a class="button blue login">
+            Sign up to get creating!
+        </a>
+    {% endif %}
+
+</div>
+

@@ -1,0 +1,68 @@
+{% load utils %}
+{% logged_in_status as logged_in %}
+
+{% if not logged_in %}
+    {% include "cubetube/partials/_login_components.html" %}
+{% endif %}
+
+<nav class="{% if not large %}always-small{% endif %} {{page}}">
+    <div class="section">
+        <a class="logo-box" href="/">
+            <img src="/static/images/logo.svg" class="logo" />
+            Cubetube
+        </a>
+        <ul class="items">
+            {% if not logged_in %}
+                <li class="login">
+                    <a href="">Join or Log In</a>
+                </li>
+            {% else %}
+                <li class="user logout-user">
+                    <a class="logout" href="">{{ request.COOKIES.nickname }}</a>
+                </li>
+                <li>
+                    <a class="create" href="">Create</a>
+                </li>
+            {% endif %}
+            <li class="on-forum">
+                <a href="/forum">Forum</a>
+            </li>
+            <li class="on-gallery">
+                <a href="/gallery">Gallery</a>
+            </li>
+            <li class="on-docs">
+                <a href="/docs">Getting Started</a>
+            </li>
+            <li class="on-overview">
+                <a href="/">Overview</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% if large %}
+<header>
+    <div class="section">
+        <div class="main-text">
+            <h1>
+                It’s hip<br>
+                to be cube
+            </h1>
+            <h2>
+                Build and share vizualizations for your l3d cube!
+            </h2>
+        </div>
+    </div>
+</header>
+<script>
+window.onresize = function() {
+    setHeaderHeight();
+}
+
+function setHeaderHeight() {
+    $('header').height( Math.max(window.innerHeight, 500) );
+}
+setHeaderHeight();
+</script>
+{% endif %}
+

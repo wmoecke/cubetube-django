@@ -1,0 +1,209 @@
+/**
+ * Cubetube main styles
+ * -- Its hip to be cube!
+ */
+
+/**
+ * Vars & mixins
+ */
+
+$purple: #1c1521;
+$blue: #2bc6fb;
+$red: #EE0026;
+
+@mixin transform ($values) {
+    -webkit-transform: $values;
+    -moz-transform: $values;
+    -ms-transform: $values;
+    transform: $values;
+}
+
+@mixin transition ($values) {
+    -webkit-transition: $values;
+    -moz-transition: $values;
+    -ms-transition: $values;
+    transition: $values;
+}
+
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+        @content; 
+    }
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+    @-ms-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    } 
+}
+
+@mixin animation($delay, $duration, $animation) {
+    -webkit-animation-delay: $delay;
+    -webkit-animation-duration: $duration;
+    -webkit-animation-name: $animation;
+    -webkit-animation-fill-mode: forwards;
+ 
+    -moz-animation-delay: $delay;
+    -moz-animation-duration: $duration;
+    -moz-animation-name: $animation;
+    -moz-animation-fill-mode: forwards;
+ 
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $animation;
+    animation-fill-mode: forwards;
+}
+
+/**
+ * Resets
+ */
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    background: #fff;
+}
+
+body {
+    font-family: "proxima-nova", sans-serif;
+}
+
+header {
+    height: 80px;
+    background: #fff;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h1 {
+    color: #212121;
+    font-weight: 800;
+    font-size: 35px;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 18px;
+    color: #9199aa;
+    margin-bottom: 30px;
+}
+
+button {
+    outline: 0px;
+}
+
+.blue {
+    color: $blue;
+}
+
+.section {
+    max-width: 1340px;
+    min-width: 980px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin: auto;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+ /**
+  * App
+  */
+
+.explore-title {
+    margin-bottom: 20px;
+    padding-top: 100px;
+}
+
+.create-callout {
+
+    .shadowed-line {
+        margin-bottom: 110px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.05);
+    }
+
+    padding-top: 70px;
+    padding-bottom: 120px;
+
+    img {
+        margin: auto;
+        margin-bottom: 40px;
+        margin-top: 60px;
+        display: block;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.button {
+    display: block;
+    background: $blue;
+    color: #fff;
+    cursor: pointer;
+    margin: auto;
+    max-width: 260px;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 3px;
+    letter-spacing: 0.4px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:active {
+        background: darken($blue, 10%);
+    }
+}
+
+@include keyframes(fadein) {
+    0% {
+        opacity: 0;
+    }
+ 
+    100% {
+        opacity: 1;
+    }
+}
+
+@include keyframes(fadeAndMove) {
+    0% {
+        opacity: 0;
+        margin-top: -40px;
+    }
+ 
+    100% {
+        opacity: 1;
+        margin-top: 0px;
+    }
+}
+
+@import 'login-components';
+@import 'viz-base';
+@import 'svgs';
+@import 'header';
+@import 'viz-card';
+@import 'gallery';
+@import 'footer';
+@import 'docs';
+@import 'forum';

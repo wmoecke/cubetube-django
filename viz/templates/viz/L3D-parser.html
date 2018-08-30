@@ -1,0 +1,130 @@
+{% load staticfiles %}
+<html>
+<head>
+	<!--jquery loading !-->
+	<script src="{% static 'js/jquery-1.11.2.min.js'%}"></script>
+
+	<!--L3D code loading !-->
+	<script src="{% static 'js/L3Dparser.js'%}"></script>
+	<script type="text/javascript">
+	  var sparkCode;
+	  var canvasControl="background(0);\ntranslate(width/2, height/2);\nrotateY(mouseX/50);\nrotateX(mouseY/50);";
+
+	  var translation={};  //the translation list is for basic keyword find-and-replace
+	  translation["loop()"]="draw()";
+	  translation["cube.show()"]="cube.draw()";
+	  translation["Point"]="PVector";
+	  translation["black)"]= "color(0x00, 0x00, 0x00))";
+	  translation["grey)"]= "color(0x92, 0x95, 0x91))";
+	  translation["yellow)"]= "color(0xff, 0xff, 0x14))";
+	  translation["magenta)"]= "color(0xc2, 0x00, 0x78))";
+	  translation["orange)"]= "color(0xf9, 0x73, 0x06))";
+	  translation["teal)"]= "color(0x02, 0x93, 0x86))";
+	  translation["red)"]= "color(0xe5, 0x00, 0x00))";
+	  translation["brown)"]= "color(0x65, 0x37, 0x00))";
+	  translation["pink)"]= "color(0xff, 0x81, 0xc0))";
+	  translation["blue)"]= "color(0x03, 0x43, 0xdf))";
+	  translation["green)"]= "color(0x15, 0xb0, 0x1a))";
+	  translation["purple)"]= "color(0x7e, 0x1e, 0x9c))";
+	  translation["white)"] = "color(0xff, 0xff, 0xff))";
+	  translation["int "]="var ";
+	  translation["unsigned int "]="var ";
+	  translation["char "]="var ";
+	  translation["unsigned char "]="var ";
+	  translation["String "]="var ";
+	  translation["float "]="var ";
+	  var parts;
+
+	  var ignoreList=["include", "cube.begin"];  //ignore list is for lines that only make sense in C, so we'll drop them completelyfrom the javascript
+
+	  var flagList={};     //the flag list contains lines that require some restructuring beyond a simple find-and-replace.  
+	  //This runs after the translation list, but on the C++ data structures and syntax
+	  flagList["Cube "]=0;
+	  flagList["draw()"]=0;
+	  flagList["PVector"]=0;
+	  flagList["setup()"]=0;
+	  
+	  
+	  $.get("{% url 'code' source.pk %}", function(data) {
+	  sparkCode=data.split('\n');  //sparkCode is an array of lines in the data file
+	  jsCode=[];
+	  var cubeObject;
+	  var cubeObjectName;
+	  for(var i=0;i<sparkCode.length;i++)
+			  {
+			  $("#sparkCode").append(sparkCode[i]+"<br/>");
+			  var ignoreFlag=false;
+			  for(var j=0;j<ignoreList.length;j++)
+		          {
+		            if(sparkCode[i].indexOf(ignoreList[j])>=0)
+			       ignoreFlag=true;
+			  }
+			  //if the line is valid, we now loop through all the translations and apply them to the line
+			  if(ignoreFlag==false)
+			  {
+			  line=sparkCode[i];
+			  for(var key in translation){
+			  line=line.replace(key, translation[key]);
+			  }
+			  //now add the translated line to the JS code
+			  jsCode.push(line)
+			  }
+			  }
+        for(var i=0;i<jsCode.length;i++)
+			{
+			var line=jsCode[i];
+			  for(var key in flagList)
+			      if(line.indexOf(key)>=0)
+			          flagList[key]++;
+			  if(flagList["Cube "]==1)  //we've initialized the cube object, let's find out its name
+			  {
+			  parts=line.split(' ');
+			  cubeObjectName=parts[1];
+			  console.log("cube object name: "+cubeObjectName);
+			  flagList[cubeObjectName]="0";
+			  line="Cube "+cubeObjectName+";";
+			  jsCode[i]=line;
+			  flagList["Cube "]=0;
+			  }
+			  if(flagList["setup()"]==1)
+			  {
+			  if(line.indexOf("{")>=0)
+	                   {
+	                     parts=line.split("{");
+	                     line=parts[0]+"{"+cubeObjectName+"=new Cube();"+"size(500,500, P3D);"+parts[1];
+	                     jsCode[i]=line;
+	                     flagList["setup()"]=0;
+	                   }	
+	                  }
+
+			  if(flagList["PVector"]==1)
+			  {
+			  line=line.replace("{", "new PVector(");
+			  line=line.replace("}", ")");
+			  jsCode[i]=line;     //replace the line in the code
+			  flagList["PVector"]=0;
+			  }
+
+			  if(flagList["draw()"]==1)
+			  {
+			  if(line.indexOf("{")>=0)
+	                   {
+	                     parts=line.split("{");
+	                     line=parts[0]+"{"+canvasControl+parts[1];
+	                     jsCode[i]=line;
+	                     flagList["draw()"]=0;
+	                   }
+			  }
+			  $("#jsCode").append(line+"<br/>");
+			}
+
+	  });
+	  </script>
+</head>
+<body>
+<div style="width: 100%; overflow: hidden">
+<div id="sparkCode" style="width: 50%; float:left; border:solid 1px;"></div>
+<div id="jsCode" style="margin-left: 51%; width: 48%;border: solid 1px;"></div>
+</div>
+</body>
+</html>

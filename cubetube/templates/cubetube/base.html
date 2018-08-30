@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<html>
+  <head>
+    {% include "cubetube/partials/_head.html" %}
+    {% block headx %}{% endblock %}
+  </head>
+  <body>
+    {% block header %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+    <div class="glass"></div>
+    {% include "cubetube/partials/_foot.html" %}
+  </body>
+</html>
