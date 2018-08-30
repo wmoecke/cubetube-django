@@ -12,3 +12,5 @@ django.wsgi
 *.conf
 *.zip
 *.rar
+migrations
+nbproject
