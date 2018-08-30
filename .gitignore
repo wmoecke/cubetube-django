@@ -8,3 +8,7 @@ django.wsgi
 */settings.py
 *~
 *.ino
+*.bak
+*.conf
+*.zip
+*.rar
