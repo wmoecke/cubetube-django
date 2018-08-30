@@ -1,0 +1,10 @@
+*#*
+/static
+*.pyc
+*~*
+/logs
+django.wsgi
+/env
+*/settings.py
+*~
+*.ino
